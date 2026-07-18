@@ -164,22 +164,68 @@
   .heart-icon.liked{ color:var(--ig-red); }
 
   /* ---------- profile ---------- */
-  .profile-top{ display:flex; align-items:center; gap:16px; padding-bottom:6px; }
   .back-row{ display:flex; align-items:center; gap:10px; padding:10px 12px 0; }
   .back-row .name{ font-weight:600; font-size:15px; }
   .profile-header{ padding:16px; background:var(--ig-surface); }
   .profile-avatar-row{ display:flex; align-items:center; gap:22px; margin-bottom:12px; }
   .profile-header .avatar{ width:82px; height:82px; font-size:28px; border:none; flex:none; }
   .stats{ display:flex; gap:22px; flex:1; }
-  .stat{ text-align:center; }
+  .stat{ text-align:center; background:none; border:none; cursor:pointer; color:var(--ig-text); font-family:inherit; padding:0; }
   .stat b{ display:block; font-size:16px; }
   .stat span{ font-size:12.5px; color:var(--ig-text-soft); }
   .profile-name{ font-weight:600; font-size:13.5px; margin-top:2px; }
-  .profile-bio{ font-size:13.5px; margin-top:4px; white-space:pre-line; line-height:1.4; color:var(--ig-text); }
-  .profile-tags{ font-size:12.5px; color:var(--ig-blue); margin-top:2px; }
+  .profile-bio{ font-size:13.5px; margin-top:4px; white-space:pre-line; line-height:1.4; color:var(--ig-text); min-height:1px; }
+  .profile-tabs{ display:flex; border-top:1px solid var(--ig-border); background:var(--ig-surface); }
+  .profile-tab{
+    flex:1; text-align:center; padding:10px 0; background:none; border:none; cursor:pointer;
+    color:var(--ig-text-soft); border-top:1.5px solid transparent; margin-top:-1px;
+  }
+  .profile-tab.active{ color:var(--ig-text); border-top-color:var(--ig-text); }
+  .profile-tab svg{ width:22px; height:22px; }
   .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:2px; }
-  .grid .cell{ aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+  .grid .cell{ aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative; }
   .grid .cell .icon{ font-size:30px; }
+  .grid .cell .tagmark{ position:absolute; bottom:5px; right:6px; font-size:11px; opacity:.85; }
+  .empty-tab{ text-align:center; color:var(--ig-text-soft); font-size:13px; padding:50px 20px; }
+
+  /* ---------- locked profile ---------- */
+  .locked-block{ padding:36px 28px 44px; text-align:center; background:var(--ig-surface); }
+  .locked-block .lock-icon{ font-size:38px; margin-bottom:14px; opacity:.55; }
+  .locked-title{ font-weight:700; font-size:16px; margin-bottom:6px; }
+  .locked-sub{ font-size:13px; color:var(--ig-text-soft); line-height:1.6; margin-bottom:20px; }
+  .unlock-row{ display:flex; gap:8px; max-width:280px; margin:0 auto; }
+  .unlock-row input{
+    flex:1; padding:10px 12px; border-radius:8px; border:1px solid var(--ig-border);
+    background:var(--ig-bg); color:var(--ig-text); font-size:14px; outline:none; text-align:center;
+    letter-spacing:1px;
+  }
+  .unlock-row input:focus{ border-color:var(--ig-blue); }
+  .unlock-row button{
+    padding:10px 18px; border-radius:8px; border:none; background:var(--ig-blue); color:#fff;
+    font-weight:600; font-size:13.5px; cursor:pointer;
+  }
+  .unlock-msg{ font-size:12.5px; margin-top:12px; min-height:16px; color:var(--ig-red); }
+  .unlock-msg.ok{ color:#3bb54a; }
+  .locked-block.shake{ animation:shake .4s ease; }
+  @keyframes shake{
+    0%,100%{ transform:translateX(0); }
+    20%{ transform:translateX(-8px); }
+    40%{ transform:translateX(8px); }
+    60%{ transform:translateX(-6px); }
+    80%{ transform:translateX(6px); }
+  }
+
+  /* ---------- following list overlay ---------- */
+  .list-overlay{
+    position:absolute; inset:0; background:var(--ig-bg); z-index:40;
+    display:none; flex-direction:column;
+  }
+  .list-overlay.active{ display:flex; }
+  .list-item{ display:flex; align-items:center; gap:12px; padding:10px 16px; }
+  .list-item .avatar{ width:44px; height:44px; font-size:15px; border:none; }
+  .list-item .name{ font-size:14px; font-weight:600; }
+  .list-item .sub{ font-size:12px; color:var(--ig-text-soft); }
+  .list-empty{ text-align:center; color:var(--ig-text-soft); font-size:13px; padding:50px 20px; }
 
   /* ---------- dm ---------- */
   .dm-list-item{ display:flex; align-items:center; gap:12px; padding:10px 16px; cursor:pointer; }
@@ -193,13 +239,7 @@
   .thread{ padding:12px 12px 90px; display:flex; flex-direction:column; gap:6px; }
   .bubble-row{ display:flex; }
   .bubble-row.me{ justify-content:flex-end; }
-  .bubble{
-    max-width:72%;
-    padding:9px 13px;
-    border-radius:18px;
-    font-size:14px;
-    line-height:1.4;
-  }
+  .bubble{ max-width:72%; padding:9px 13px; border-radius:18px; font-size:14px; line-height:1.4; }
   .bubble-row:not(.me) .bubble{ background:var(--ig-border); color:var(--ig-text); border-bottom-left-radius:5px; }
   .bubble-row.me .bubble{ background:var(--ig-blue); color:#fff; border-bottom-right-radius:5px; }
   .thread-daymark{ text-align:center; font-size:11.5px; color:var(--ig-text-soft); margin:10px 0 4px; }
@@ -219,10 +259,7 @@
   .navbtn:not(.active){ opacity:.55; }
 
   /* ---------- story viewer ---------- */
-  .story-viewer{
-    position:absolute; inset:0; background:#000; z-index:50;
-    display:none; flex-direction:column;
-  }
+  .story-viewer{ position:absolute; inset:0; background:#000; z-index:50; display:none; flex-direction:column; }
   .story-viewer.active{ display:flex; }
   .story-progress{ display:flex; gap:4px; padding:8px 8px 0; }
   .story-progress .bar{ flex:1; height:2.5px; background:rgba(255,255,255,.35); border-radius:2px; overflow:hidden; }
@@ -239,6 +276,16 @@
     position:absolute; bottom:28px; left:0; right:0; text-align:center;
     color:#fff; font-size:16px; font-weight:600; text-shadow:0 2px 8px rgba(0,0,0,.4); padding:0 20px;
   }
+  .story-deleted-badge{
+    position:absolute; top:70px; left:0; right:0; text-align:center;
+    color:#ddd; font-size:13px; letter-spacing:.5px;
+  }
+  .story-reply-ghost{
+    position:absolute; bottom:70px; left:16px; right:16px;
+    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
+    border-radius:14px; padding:9px 13px; color:#fff; font-size:13px;
+  }
+  .story-reply-ghost b{ font-weight:600; margin-right:5px; }
   .story-taparea{ position:absolute; top:0; bottom:0; width:34%; }
   .story-taparea.left{ left:0; }
   .story-taparea.right{ right:0; }
@@ -285,14 +332,24 @@
         <div class="avatar" id="profileAvatar"></div>
         <div class="stats">
           <div class="stat"><b id="profilePostCount"></b><span>貼文</span></div>
-          <div class="stat"><b id="profileFollowers"></b><span>粉絲</span></div>
-          <div class="stat"><b id="profileFollowing"></b><span>追蹤中</span></div>
+          <button class="stat" onclick="openFollowingList()"><b id="profileFollowers"></b><span>粉絲</span></button>
+          <button class="stat" onclick="openFollowingList()"><b id="profileFollowing"></b><span>追蹤中</span></button>
         </div>
       </div>
       <div class="profile-name" id="profileName"></div>
       <div class="profile-bio" id="profileBio"></div>
     </div>
-    <div class="grid" id="profileGrid"></div>
+    <div id="profileBody"></div>
+
+    <div class="list-overlay" id="followingOverlay">
+      <div class="back-row" style="padding-bottom:8px;">
+        <button class="icon-btn" onclick="closeFollowingList()" aria-label="返回">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span class="name">追蹤中</span>
+      </div>
+      <div id="followingItems"></div>
+    </div>
   </div>
 
   <!-- ============ DM LIST SCREEN ============ -->
@@ -333,7 +390,9 @@
     </div>
     <div class="story-body">
       <span class="icon" id="storyIcon"></span>
+      <div class="story-deleted-badge" id="storyDeletedBadge" style="display:none;">🚫 這則限時動態已刪除</div>
       <div class="story-caption" id="storyCaption"></div>
+      <div class="story-reply-ghost" id="storyReplyGhost" style="display:none;"></div>
       <div class="story-taparea left" onclick="storyPrev()"></div>
       <div class="story-taparea right" onclick="storyNext()"></div>
     </div>
@@ -366,37 +425,58 @@
 const ACCOUNTS = {
   yuan: {
     handle:'yuan.zhan05', name:'粘雨安', title:'國三生・銓山戰鼓隊',
-    bio:'國三｜🥁銓山戰鼓隊｜銓山國中\n感謝一路上支持我們的大家🙏', tag:'#銓山戰鼓隊',
+    bio:'國三｜🥁銓山戰鼓隊｜銓山國中\n感謝一路上支持我們的大家🙏',
     grad:'linear-gradient(135deg,#ffafbd,#ffc3a0)', letter:'粘',
     followers:'892', following:'213',
-    hasStory:true, storySeen:false,
-    storyGrad:'linear-gradient(160deg,#0f2027,#203a43,#2c5364)', storyIcon:'🌙', storyCaption:'晚安',
-    storyTime:'23小時前'
+    storyFrames:[
+      { grad:'linear-gradient(160deg,#0f2027,#203a43,#2c5364)', icon:'🌙', caption:'晚安', time:'23小時前' }
+    ]
   },
   jie: {
     handle:'szjie___', name:'王思潔', title:'國三生',
-    bio:'國三｜銓山國中', tag:'',
+    bio:'國三｜銓山國中',
     grad:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', letter:'思',
     followers:'456', following:'380',
-    hasStory:true, storySeen:false,
-    storyGrad:'linear-gradient(160deg,#485563,#29323c)', storyIcon:'🏙️', storyCaption:'好想去別的地方看看',
-    storyTime:'1天前'
+    storyFrames:[
+      { grad:'linear-gradient(160deg,#485563,#29323c)', icon:'🏙️', caption:'好想去別的地方看看', time:'1天前' },
+      { deleted:true, grad:'linear-gradient(160deg,#1a1a1a,#2b2b2b)', time:'5月8日 01:14',
+        replyUser:'lulu_923', replyText:'欸…妳還好嗎？' }
+    ]
   },
   assoc: {
     handle:'quanshan_culture', name:'銓山海洋文化協會', title:'官方帳號',
-    bio:'銓山海洋文化協會 官方帳號\n用鼓聲陪伴偏鄉孩子🥁', tag:'',
+    bio:'銓山海洋文化協會 官方帳號\n用鼓聲陪伴偏鄉孩子🥁',
     grad:'linear-gradient(135deg,#f6d365,#fda085)', letter:'協',
     followers:'3,204', following:'12',
-    hasStory:true, storySeen:true,
-    storyGrad:'linear-gradient(160deg,#f6d365,#fda085)', storyIcon:'📣', storyCaption:'配合調查，戰鼓隊暫停活動',
-    storyTime:'2天前'
+    storyFrames:[
+      { grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'📣', caption:'配合調查，戰鼓隊暫停活動', time:'2天前' }
+    ]
   },
   anon: {
     handle:'quanshan_jhs_anon', name:'銓山國中匿名爆料', title:'匿名帳號',
-    bio:'銓山國中學生自發串連\n有話想說的都可以來投稿 📮', tag:'',
+    bio:'銓山國中學生自發串連\n有話想說的都可以來投稿 📮',
     grad:'linear-gradient(135deg,#606c88,#3f4c6b)', letter:'匿',
-    followers:'1,105', following:'3',
-    hasStory:false
+    followers:'1,105', following:'3'
+  },
+  jingyi: {
+    handle:'jingyi.l', name:'林靜宜', title:'國三生',
+    bio:'',
+    grad:'linear-gradient(135deg,#d7d2cc,#304352)', letter:'林',
+    followers:'34', following:'6',
+    private:true, unlockCode:'0518',
+    followingList:[
+      {handle:'linshi_senior_high', label:'鄰市高中・官方帳號'},
+      {handle:'linshi2_senior_high', label:'鄰市第二高中・官方帳號'},
+      {handle:'boyu_h', label:'黃柏宇'}
+    ],
+    tagged:[
+      { grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'🥁', caption:'戰鼓隊集訓合照', byHandle:'cc_lin23' }
+    ]
+  },
+  boyu: {
+    handle:'boyu_h', name:'黃柏宇', title:'國三生',
+    bio:'🔮',
+    grad:'linear-gradient(135deg,#3a1c71,#4a2574)', letter:'黃'
   }
 };
 
@@ -419,11 +499,11 @@ const POSTS = [
 
   { id:5, acc:'anon', time:'5月9日 22:41', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
     caption:'會考倒數還要夜訓，誰敢說不去？',
-    likes:340, comments:[{u:'user8821', t:'說真的…'}] },
+    likes:340, comments:[{u:'user8821', t:'說真的…'},{u:'boyu_h', t:'上次我看到王老師手上的名單寫得滿滿一整頁，一個名字都沒漏。'},{u:'user2231', t:'@boyu_h 你怎麼知道得這麼細節哈哈'}] },
 
   { id:6, acc:'jie', time:'5月10日 21:03', grad:'linear-gradient(135deg,#485563,#29323c)', icon:'🌆',
-    caption:'好想去別的地方看看喔',
-    likes:76, comments:[] },
+    caption:'無聊到爆炸 誰要來救我',
+    likes:76, comments:[{u:'lulu_923', t:'又在耍廢哈哈 說出來聽聽'}] },
 
   { id:7, acc:'anon', time:'5月11日 23:02', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
     caption:'自願參加＝導師一個一個打電話問為什麼不簽。',
@@ -433,11 +513,23 @@ const POSTS = [
     caption:'晚安🌙',
     likes:98, comments:[{u:'yu_hsuan', t:'這麼晚還沒睡？'}] },
 
-  { id:9, acc:'assoc', time:'5月13日 09:10', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'📣',
+  { id:9, acc:'jie', time:'5月12日 20:40', grad:'linear-gradient(135deg,#c9d6ff,#e2e2e2)', icon:'🍽️',
+    caption:'😊',
+    likes:203, comments:[{u:'lulu_923', t:'今天全家福好正式喔'}] },
+
+  { id:10, acc:'assoc', time:'5月13日 09:10', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'📣',
     caption:'【公告】配合調查，戰鼓隊即日起暫停集訓與演出，造成不便敬請見諒🙏',
     likes:45, comments:[] },
 
-  { id:10, acc:'anon', time:'5月14日 20:15', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
+  { id:11, acc:'jie', time:'5月上旬', grad:'linear-gradient(135deg,#8ec5fc,#e0c3fc)', icon:'🏠',
+    caption:'有沒有人住過外地的學生宿舍 想問一些事',
+    likes:64, comments:[{u:'stranger_88', t:'我住過欸 可以私訊我問'}] },
+
+  { id:12, acc:'boyu', time:'5月上旬', grad:'linear-gradient(135deg,#3a1c71,#4a2574)', icon:'🔮',
+    caption:'今天的牌陣',
+    likes:11, comments:[{u:'user2231', t:'又在那邊神神叨叨'},{u:'cc_lin23', t:'欸他上次算的真的準…'}] },
+
+  { id:13, acc:'anon', time:'5月14日 20:15', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
     caption:'演出費到底去哪裡？我們只拿到便當和一張獎狀。',
     likes:601, comments:[{u:'user1129', t:'早就想問了'},{u:'user8821', t:'求協會出來說清楚'}] }
 ];
@@ -445,17 +537,17 @@ const POSTS = [
 const DM_THREADS = [
   {
     id:'jie_chengen', otherAcc:'jie',
-    otherLabel:'王思潔', otherHandle:'szjie___', sub:'與 chengen.tw 的對話',
+    otherLabel:'王思潔', sub:'與 chengen.tw 的對話',
     preview:'我家裡有鬼 😂', time:'5月上旬',
     messages:[
-      {day:'5月2日', m:[]},
+      {day:'5月2日'},
       {who:'jie', t:'欸 幫我一個忙'},
       {who:'jie', t:'我家人一直查我是不是在談戀愛'},
       {who:'jie', t:'可以先假裝一下嗎 拜託'},
       {who:'me', t:'什麼假裝'},
       {who:'jie', t:'就 網路上裝成我男友 這樣他們比較不會管我'},
       {who:'me', t:'……喔 好啦'},
-      {day:'5月9日', m:[]},
+      {day:'5月9日'},
       {who:'jie', t:'可以先去你家住幾天嗎'},
       {who:'me', t:'妳家不是很有錢 幹嘛不回家'},
       {who:'jie', t:'我家裡有鬼'},
@@ -464,6 +556,21 @@ const DM_THREADS = [
     ]
   }
 ];
+
+/* ============ 解鎖狀態（存在這台裝置的 localStorage，跟其他玩家的裝置各自獨立） ============ */
+const UNLOCK_KEY = 'quanshan_ig_unlocked_accounts';
+function getUnlocked(){
+  try{ return JSON.parse(localStorage.getItem(UNLOCK_KEY) || '{}'); }catch(e){ return {}; }
+}
+function setUnlocked(acc){
+  const u = getUnlocked(); u[acc] = true;
+  localStorage.setItem(UNLOCK_KEY, JSON.stringify(u));
+}
+function isUnlocked(acc){
+  const a = ACCOUNTS[acc];
+  if(!a.private) return true;
+  return !!getUnlocked()[acc];
+}
 
 /* ============ 渲染邏輯 ============ */
 
@@ -474,10 +581,10 @@ function avatarHTML(acc, size){
 
 function renderStories(){
   const bar = document.getElementById('storiesBar');
-  bar.innerHTML = Object.keys(ACCOUNTS).filter(k=>ACCOUNTS[k].hasStory).map(k=>{
+  bar.innerHTML = Object.keys(ACCOUNTS).filter(k=>ACCOUNTS[k].storyFrames && ACCOUNTS[k].storyFrames.length).map(k=>{
     const a = ACCOUNTS[k];
     return `<button class="story-item" onclick="openStory('${k}')">
-      <div class="story-ring ${a.storySeen?'seen':''}">${avatarHTML(k,54)}</div>
+      <div class="story-ring ${a._storySeen?'seen':''}">${avatarHTML(k,54)}</div>
       <div class="story-label">${a.name}</div>
     </button>`;
   }).join('');
@@ -551,7 +658,7 @@ function submitComment(id){
 const likedState = {};
 function likePost(id, fromDblTap){
   const already = likedState[id];
-  if(fromDblTap && already) return; // already liked, just show heart pop
+  if(fromDblTap && already) return;
   if(!fromDblTap) likedState[id] = !already;
   else likedState[id] = true;
 
@@ -584,11 +691,10 @@ function showScreen(name){
 function openDMList(){
   const wrap = document.getElementById('dmListItems');
   wrap.innerHTML = DM_THREADS.map(th=>{
-    const a = ACCOUNTS[th.otherAcc];
     return `<div class="dm-list-item" onclick="openThread('${th.id}')">
       ${avatarHTML(th.otherAcc,52)}
       <div class="meta">
-        <div class="name">${a.name}</div>
+        <div class="name">${th.otherLabel}</div>
         <div class="preview">${th.preview}</div>
       </div>
       <div class="badge">${th.time}</div>
@@ -599,9 +705,8 @@ function openDMList(){
 
 function openThread(id){
   const th = DM_THREADS.find(t=>t.id===id);
-  const a = ACCOUNTS[th.otherAcc];
   document.getElementById('threadAvatar').outerHTML = avatarHTML(th.otherAcc,32).replace('class="avatar"','class="avatar" id="threadAvatar"');
-  document.getElementById('threadName').textContent = a.name;
+  document.getElementById('threadName').textContent = th.otherLabel;
   document.getElementById('threadSub').textContent = th.sub;
   const body = document.getElementById('threadBody');
   body.innerHTML = th.messages.map(m=>{
@@ -612,65 +717,209 @@ function openThread(id){
   setTimeout(()=>{ body.scrollTop = body.scrollHeight; }, 30);
 }
 
+/* ---------- 個人檔案（含私密帳號鎖定與被標記/追蹤中） ---------- */
+let currentProfileAcc = null;
+let currentProfileTab = 'posts';
+
 function openProfile(acc){
+  currentProfileAcc = acc;
+  currentProfileTab = 'posts';
   const a = ACCOUNTS[acc];
   document.getElementById('profileHandle').textContent = a.handle;
   document.getElementById('profileAvatar').outerHTML = avatarHTML(acc,82).replace('class="avatar"','class="avatar" id="profileAvatar"');
   const myPosts = POSTS.filter(p=>p.acc===acc);
   document.getElementById('profilePostCount').textContent = myPosts.length;
-  document.getElementById('profileFollowers').textContent = a.followers;
-  document.getElementById('profileFollowing').textContent = a.following;
+  document.getElementById('profileFollowers').textContent = a.followers || '0';
+  document.getElementById('profileFollowing').textContent = a.following || '0';
   document.getElementById('profileName').textContent = a.name + (a.title?'　'+a.title:'');
-  document.getElementById('profileBio').textContent = a.bio;
-  document.getElementById('profileGrid').innerHTML = myPosts.map(p=>`
-    <div class="cell" style="background:${p.grad}" onclick="showScreen('feed'); setTimeout(()=>document.getElementById('post-${p.id}').scrollIntoView({behavior:'smooth',block:'center'}),80)">
-      <span class="icon">${p.icon}</span>
-    </div>`).join('');
+  document.getElementById('profileBio').textContent = a.bio || '';
+  renderProfileBody();
   showScreen('profile');
 }
 
-/* ---------- 限時動態 viewer ---------- */
+function renderProfileBody(){
+  const acc = currentProfileAcc;
+  const a = ACCOUNTS[acc];
+  const body = document.getElementById('profileBody');
+
+  if(a.private && !isUnlocked(acc)){
+    body.innerHTML = `
+      <div class="locked-block" id="lockedBlock">
+        <div class="lock-icon">🔒</div>
+        <div class="locked-title">此帳號為私人帳號</div>
+        <div class="locked-sub">需要驗證存取權限，才能查看貼文與被標記的相片。</div>
+        <div class="unlock-row">
+          <input type="text" id="unlockInput" placeholder="輸入解鎖碼" onkeydown="if(event.key==='Enter')tryUnlock()">
+          <button onclick="tryUnlock()">解鎖</button>
+        </div>
+        <div class="unlock-msg" id="unlockMsg"></div>
+      </div>`;
+    return;
+  }
+
+  const myPosts = POSTS.filter(p=>p.acc===acc);
+  const tagged = a.tagged || [];
+
+  body.innerHTML = `
+    <div class="profile-tabs">
+      <button class="profile-tab ${currentProfileTab==='posts'?'active':''}" onclick="switchProfileTab('posts')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </button>
+      <button class="profile-tab ${currentProfileTab==='tagged'?'active':''}" onclick="switchProfileTab('tagged')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 3l4 4-11 11H6v-4z"/><path d="M3 21h18"/></svg>
+      </button>
+    </div>
+    <div id="profileGrid"></div>
+  `;
+
+  const grid = document.getElementById('profileGrid');
+  if(currentProfileTab==='posts'){
+    if(myPosts.length===0){
+      grid.innerHTML = `<div class="empty-tab">這個帳號還沒有貼文</div>`;
+    }else{
+      grid.className = 'grid';
+      grid.innerHTML = myPosts.map(p=>`
+        <div class="cell" style="background:${p.grad}" onclick="showScreen('feed'); setTimeout(()=>document.getElementById('post-${p.id}').scrollIntoView({behavior:'smooth',block:'center'}),80)">
+          <span class="icon">${p.icon}</span>
+        </div>`).join('');
+    }
+  }else{
+    if(tagged.length===0){
+      grid.innerHTML = `<div class="empty-tab">尚無被標記的相片</div>`;
+    }else{
+      grid.className = 'grid';
+      grid.innerHTML = tagged.map(t=>`
+        <div class="cell" style="background:${t.grad}" onclick="toast('由 @${t.byHandle} 張貼')">
+          <span class="icon">${t.icon}</span>
+          <span class="tagmark">🏷️</span>
+        </div>`).join('');
+    }
+  }
+}
+
+function switchProfileTab(tab){
+  currentProfileTab = tab;
+  renderProfileBody();
+}
+
+function tryUnlock(){
+  const acc = currentProfileAcc;
+  const a = ACCOUNTS[acc];
+  const input = document.getElementById('unlockInput');
+  const msg = document.getElementById('unlockMsg');
+  const val = (input.value || '').trim();
+  if(val === a.unlockCode){
+    setUnlocked(acc);
+    msg.textContent = '解鎖成功';
+    msg.classList.add('ok');
+    setTimeout(()=>renderProfileBody(), 400);
+  }else{
+    msg.textContent = '解鎖碼錯誤，請再試一次';
+    msg.classList.remove('ok');
+    const block = document.getElementById('lockedBlock');
+    block.classList.remove('shake'); void block.offsetWidth; block.classList.add('shake');
+    input.value=''; input.focus();
+  }
+}
+
+function openFollowingList(){
+  const acc = currentProfileAcc;
+  const a = ACCOUNTS[acc];
+  if(a.private && !isUnlocked(acc)){ toast('請先解鎖此帳號'); return; }
+  const wrap = document.getElementById('followingItems');
+  const list = a.followingList || [];
+  if(list.length===0){
+    wrap.innerHTML = `<div class="list-empty">（示範版未列出此帳號的追蹤清單）</div>`;
+  }else{
+    wrap.innerHTML = list.map(f=>`
+      <div class="list-item">
+        <div class="avatar" style="background:linear-gradient(135deg,#999,#666);">${f.label.slice(0,1)}</div>
+        <div>
+          <div class="name">${f.handle}</div>
+          <div class="sub">${f.label}</div>
+        </div>
+      </div>`).join('');
+  }
+  document.getElementById('followingOverlay').classList.add('active');
+}
+function closeFollowingList(){
+  document.getElementById('followingOverlay').classList.remove('active');
+}
+
+/* ---------- 限時動態 viewer（支援每個帳號多張frame，含「已刪除」frame） ---------- */
 let storyQueue = [];
-let storyIdx = 0;
+let storyAccIdx = 0;
+let storyFrameIdx = 0;
 let storyTimer = null;
 
 function openStory(acc){
-  storyQueue = Object.keys(ACCOUNTS).filter(k=>ACCOUNTS[k].hasStory);
-  storyIdx = storyQueue.indexOf(acc);
+  storyQueue = Object.keys(ACCOUNTS).filter(k=>ACCOUNTS[k].storyFrames && ACCOUNTS[k].storyFrames.length);
+  storyAccIdx = storyQueue.indexOf(acc);
+  storyFrameIdx = 0;
   document.getElementById('storyViewer').classList.add('active');
-  renderStoryProgress();
   showStoryFrame();
 }
 function renderStoryProgress(){
+  const frames = ACCOUNTS[storyQueue[storyAccIdx]].storyFrames;
   const wrap = document.getElementById('storyProgress');
-  wrap.innerHTML = storyQueue.map((_,i)=>`<div class="bar ${i<storyIdx?'done':''}" id="sbar-${i}"><div class="fill"></div></div>`).join('');
+  wrap.innerHTML = frames.map((_,i)=>`<div class="bar ${i<storyFrameIdx?'done':''}" id="sbar-${i}"><div class="fill"></div></div>`).join('');
 }
 function showStoryFrame(){
   clearTimeout(storyTimer);
-  const acc = storyQueue[storyIdx];
+  const acc = storyQueue[storyAccIdx];
   const a = ACCOUNTS[acc];
+  const frame = a.storyFrames[storyFrameIdx];
+
   document.getElementById('storyAvatar').outerHTML = avatarHTML(acc,32).replace('class="avatar"','class="avatar" id="storyAvatar"');
   document.getElementById('storyName').textContent = a.handle;
-  document.getElementById('storyTime').textContent = a.storyTime;
-  document.querySelector('.story-body').style.background = a.storyGrad;
-  document.getElementById('storyIcon').textContent = a.storyIcon;
-  document.getElementById('storyCaption').textContent = a.storyCaption;
-  a.storySeen = true;
+  document.getElementById('storyTime').textContent = frame.time || '';
+  document.querySelector('.story-body').style.background = frame.grad;
+
+  const iconEl = document.getElementById('storyIcon');
+  const capEl = document.getElementById('storyCaption');
+  const delBadge = document.getElementById('storyDeletedBadge');
+  const replyGhost = document.getElementById('storyReplyGhost');
+
+  if(frame.deleted){
+    iconEl.textContent = '';
+    capEl.textContent = '';
+    delBadge.style.display = 'block';
+    replyGhost.style.display = 'block';
+    replyGhost.innerHTML = `<b>${frame.replyUser}</b>${frame.replyText}`;
+  }else{
+    iconEl.textContent = frame.icon || '';
+    capEl.textContent = frame.caption || '';
+    delBadge.style.display = 'none';
+    replyGhost.style.display = 'none';
+  }
+
+  a._storySeen = true;
   renderStoryProgress();
-  const fill = document.getElementById('sbar-'+storyIdx).querySelector('.fill');
+  const fill = document.getElementById('sbar-'+storyFrameIdx).querySelector('.fill');
   fill.style.transition='none'; fill.style.width='0%';
   requestAnimationFrame(()=>{
-    fill.style.transition='width 4.5s linear';
+    fill.style.transition='width 4.8s linear';
     fill.style.width='100%';
   });
-  storyTimer = setTimeout(storyNext, 4600);
+  storyTimer = setTimeout(storyNext, 4900);
 }
 function storyNext(){
-  if(storyIdx < storyQueue.length-1){ storyIdx++; showStoryFrame(); }
-  else { closeStory(); }
+  const frames = ACCOUNTS[storyQueue[storyAccIdx]].storyFrames;
+  if(storyFrameIdx < frames.length-1){
+    storyFrameIdx++; showStoryFrame();
+  }else if(storyAccIdx < storyQueue.length-1){
+    storyAccIdx++; storyFrameIdx=0; showStoryFrame();
+  }else{
+    closeStory();
+  }
 }
 function storyPrev(){
-  if(storyIdx > 0){ storyIdx--; showStoryFrame(); }
+  if(storyFrameIdx > 0){ storyFrameIdx--; showStoryFrame(); }
+  else if(storyAccIdx > 0){
+    storyAccIdx--;
+    storyFrameIdx = ACCOUNTS[storyQueue[storyAccIdx]].storyFrames.length - 1;
+    showStoryFrame();
+  }
 }
 function closeStory(){
   clearTimeout(storyTimer);
