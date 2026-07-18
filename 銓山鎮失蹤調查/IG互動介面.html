@@ -35,14 +35,20 @@
   }
 
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-  html,body{margin:0;padding:0;}
+  html,body{
+    margin:0;padding:0;
+    height:100%;
+    overflow:hidden; /* 頁面本身永遠不滾動，只有 .screen 內部滾動 */
+  }
   body{
     background:#e8e8e8;
     color:var(--ig-text);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",Roboto,Helvetica,Arial,sans-serif;
     display:flex;
     justify-content:center;
-    min-height:100vh;
+    align-items:center;
+    height:100vh;
+    height:100dvh;
     padding:20px 0;
   }
   @media (prefers-color-scheme: dark){ body{ background:#000; } }
@@ -51,7 +57,9 @@
     width:390px;
     max-width:100vw;
     background:var(--ig-bg);
-    min-height:844px;
+    height:844px;
+    max-height:100vh;
+    max-height:100dvh;
     position:relative;
     border-radius:36px;
     overflow:hidden;
@@ -59,7 +67,10 @@
     display:flex;
     flex-direction:column;
   }
-  @media (max-width:430px){ .device{ border-radius:0; box-shadow:none; min-height:100vh; } body{ padding:0; } }
+  @media (max-width:430px){
+    .device{ border-radius:0; box-shadow:none; height:100vh; height:100dvh; }
+    body{ padding:0; height:100vh; height:100dvh; }
+  }
 
   .statusbar{
     height:20px; flex:none;
@@ -499,11 +510,7 @@ const POSTS = [
 
   { id:5, acc:'anon', time:'5月9日 22:41', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
     caption:'會考倒數還要夜訓，誰敢說不去？',
-    likes:340, comments:[{u:'user8821', t:'說真的…'},{u:'boyu_h', t:'上次我看到王老師手上的名單寫得滿滿一整頁，一個名字都沒漏。'},{u:'user2231', t:'@boyu_h 你怎麼知道得這麼細節哈哈'}] },
-
-  { id:6, acc:'jie', time:'5月10日 21:03', grad:'linear-gradient(135deg,#485563,#29323c)', icon:'🌆',
-    caption:'無聊到爆炸 誰要來救我',
-    likes:76, comments:[{u:'lulu_923', t:'又在耍廢哈哈 說出來聽聽'}] },
+    likes:340, comments:[{u:'user8821', t:'說真的…'},{u:'szjie___', t:'誰要來救我啦😩'},{u:'boyu_h', t:'上次我看到王老師手上的名單寫得滿滿一整頁，一個名字都沒漏。'},{u:'user2231', t:'@boyu_h 你怎麼知道得這麼細節哈哈'}] },
 
   { id:7, acc:'anon', time:'5月11日 23:02', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
     caption:'自願參加＝導師一個一個打電話問為什麼不簽。',
@@ -521,13 +528,13 @@ const POSTS = [
     caption:'【公告】配合調查，戰鼓隊即日起暫停集訓與演出，造成不便敬請見諒🙏',
     likes:45, comments:[] },
 
-  { id:11, acc:'jie', time:'5月上旬', grad:'linear-gradient(135deg,#8ec5fc,#e0c3fc)', icon:'🏠',
-    caption:'有沒有人住過外地的學生宿舍 想問一些事',
-    likes:64, comments:[{u:'stranger_88', t:'我住過欸 可以私訊我問'}] },
+  { id:11, acc:'jie', time:'5月13日 11:20', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'📣',
+    caption:'轉發 @quanshan_culture\n辛苦了🙏',
+    likes:31, comments:[] },
 
   { id:12, acc:'boyu', time:'5月上旬', grad:'linear-gradient(135deg,#3a1c71,#4a2574)', icon:'🔮',
     caption:'今天的牌陣',
-    likes:11, comments:[{u:'user2231', t:'又在那邊神神叨叨'},{u:'cc_lin23', t:'欸他上次算的真的準…'}] },
+    likes:11, comments:[{u:'user2231', t:'又在那邊神神叨叨'},{u:'cc_lin23', t:'欸他上次算的真的準…'},{u:'szjie___', t:'厲害欸\n這個要多練習吧'}] },
 
   { id:13, acc:'anon', time:'5月14日 20:15', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
     caption:'演出費到底去哪裡？我們只拿到便當和一張獎狀。',
@@ -553,6 +560,25 @@ const DM_THREADS = [
       {who:'jie', t:'我家裡有鬼'},
       {who:'jie', t:'😂'},
       {who:'me', t:'妳很奇怪欸'}
+    ]
+  },
+  {
+    id:'jie_lulu', otherAcc:'jie',
+    otherLabel:'王思潔', sub:'與 lulu_923 的對話',
+    preview:'妳最近很奇怪欸', time:'5月上旬',
+    messages:[
+      {day:'5月6日'},
+      {who:'jie', t:'他真的人很好'},
+      {who:'jie', t:'謝謝他陪我而已啦🥹'},
+      {who:'me', t:'妳上禮拜不是才說另一個很好'},
+      {who:'jie', t:'ㄏㄏ 不一樣啦'},
+      {day:'5月11日'},
+      {who:'jie', t:'欸 妳有沒有認識誰住過外地的宿舍'},
+      {who:'me', t:'幹嘛 妳要幹嘛'},
+      {who:'jie', t:'沒事 單純問一下而已啦'},
+      {who:'me', t:'妳最近很奇怪欸'},
+      {who:'jie', t:'會嗎'},
+      {who:'jie', t:'ㄏㄏ'}
     ]
   }
 ];
