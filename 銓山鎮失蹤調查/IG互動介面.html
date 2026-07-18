@@ -178,6 +178,10 @@
     user-select:none;
   }
   .post-media .icon{ font-size:64px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.15)); }
+  .duration-badge{
+    position:absolute; top:10px; right:10px; background:rgba(0,0,0,.6); color:#fff;
+    font-size:11.5px; font-weight:600; padding:3px 7px; border-radius:5px; letter-spacing:.2px;
+  }
   .post-media .heart-pop{
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     pointer-events:none; opacity:0; font-size:96px; color:#fff;
@@ -195,8 +199,9 @@
   .post-actions .icon-btn{ padding:2px; }
   .post-actions .spacer{ flex:1; }
   .post-likes{ padding:2px 12px 0; font-size:13.5px; font-weight:600; }
-  .post-caption{ padding:4px 12px 0; font-size:13.5px; line-height:1.4; }
+  .post-caption{ padding:4px 12px 0; font-size:13.5px; line-height:1.4; white-space:pre-line; }
   .post-caption .name{ font-weight:600; margin-right:5px; }
+  .cap-more{ background:none; border:none; padding:0; color:var(--ig-text-soft); font-size:13.5px; font-weight:600; cursor:pointer; font-family:inherit; }
   .post-comments-preview{ padding:4px 12px 0; }
   .post-comments-preview .viewall{ font-size:13px; color:var(--ig-text-soft); background:none; border:none; padding:0; cursor:pointer; display:block; margin-bottom:2px; }
   .comment-line{ font-size:13.5px; line-height:1.5; }
@@ -365,6 +370,82 @@
   .fb-post-comments{ margin-top:8px; padding-top:8px; border-top:1px solid #eee; }
   .fb-comment-line{ font-size:12.5px; color:#050505; background:#f0f2f5; border-radius:14px; padding:6px 12px; display:block; margin-bottom:4px; width:fit-content; max-width:100%; }
   .fb-comment-line b{ font-weight:700; margin-right:5px; }
+  .fb-post{ cursor:pointer; }
+  .fb-cap-more{ background:none; border:none; padding:0; color:#65676b; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; }
+  .fb-photo-grid{ display:grid; grid-template-columns:1fr 1fr; gap:3px; margin:0 -14px 8px; }
+  .fb-photo-tile{
+    aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
+    font-size:26px; position:relative; color:rgba(255,255,255,.85);
+  }
+  .fb-photo-tile .more-badge{
+    position:absolute; inset:0; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:20px; font-weight:700;
+  }
+
+  /* ---------- FB 社團首頁 masthead ---------- */
+  .fb-cover{ height:110px; background:linear-gradient(160deg,#f6d365,#fda085); display:flex; align-items:center; justify-content:center; font-size:34px; }
+  .fb-group-meta{ background:#fff; padding:12px 16px 4px; border-bottom:8px solid #f0f2f5; }
+  .fb-group-name{ font-size:19px; font-weight:800; }
+  .fb-group-sub{ font-size:12.5px; color:#65676b; margin-top:2px; }
+  .fb-group-actions{ display:flex; gap:8px; margin:12px 0 10px; }
+  .fb-joined-btn, .fb-invite-btn{ flex:1; padding:8px 0; border-radius:6px; font-size:13.5px; font-weight:700; border:none; cursor:pointer; }
+  .fb-joined-btn{ background:#e4e6eb; color:#050505; }
+  .fb-invite-btn{ background:#1877f2; color:#fff; }
+  .fb-tabs{ display:flex; gap:18px; padding:2px 0 10px; border-top:1px solid #eee; margin-top:2px; }
+  .fb-tab{ font-size:13.5px; color:#65676b; font-weight:600; padding:8px 0; }
+  .fb-tab.active{ color:#1877f2; border-bottom:2.5px solid #1877f2; }
+  .fb-compose-row{
+    display:flex; align-items:center; gap:10px; background:#f0f2f5; border-radius:20px;
+    padding:9px 14px; margin:10px 16px; font-size:13.5px; color:#65676b; cursor:pointer;
+  }
+  .fb-feed-heading{ font-size:14px; font-weight:700; padding:6px 16px; color:#050505; }
+
+  /* ---------- FB 貼文詳情頁 ---------- */
+  .fb-post-detail-topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    height:48px; padding:0 12px; background:#fff; border-bottom:1px solid #e4e6eb; flex:none;
+  }
+  .fb-post-detail-title{ font-size:16px; font-weight:700; color:#050505; }
+  .fb-post-detail-topbar .icon-btn{ color:#050505; }
+  .fb-comment-input-row{
+    display:flex; align-items:center; gap:8px; padding:10px 12px; background:#fff;
+    border-top:1px solid #e4e6eb; position:sticky; bottom:0;
+  }
+  .fb-comment-input-row input{
+    flex:1; border:none; outline:none; background:#f0f2f5; border-radius:18px; padding:9px 14px;
+    font-size:13.5px; font-family:inherit;
+  }
+
+  /* ---------- FB 底部導覽（app自身的分頁列） ---------- */
+  .fb-bottomnav{
+    flex:none; display:none; align-items:center; justify-content:space-around;
+    height:52px; border-top:1px solid #e4e6eb; background:#fff;
+  }
+  .fb-navbtn{ background:none; border:none; padding:6px; cursor:pointer; color:#65676b; position:relative; display:flex; align-items:center; justify-content:center; }
+  .fb-navbtn.active{ color:#1877f2; }
+  .fb-navbtn svg{ width:24px; height:24px; }
+  .fb-navbtn .badge{
+    position:absolute; top:0; right:0; background:#f33; color:#fff; font-size:9px; font-weight:700;
+    border-radius:50%; width:14px; height:14px; display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ---------- Threads 首頁 / 搜尋 補完 ---------- */
+  .threads-search-btn{ margin-left:auto; }
+  .threads-compose-row{
+    display:flex; align-items:center; gap:10px; padding:12px 14px; border-bottom:1px solid #1c1c1c; cursor:pointer;
+  }
+  .threads-compose-placeholder{ color:#666; font-size:14px; }
+  .thread-post-tag{ font-size:12px; color:#777; }
+  .thread-reply-nested{ margin:6px 0 4px 43px; padding-left:14px; border-left:1.5px solid #262626; }
+  .thread-post-avatar.small{ width:26px; height:26px; font-size:12px; }
+  .threads-bottomnav{
+    flex:none; display:none; align-items:center; justify-content:space-around;
+    height:52px; border-top:1px solid #1c1c1c; background:#000;
+  }
+  .threads-navbtn{ background:none; border:none; padding:6px; cursor:pointer; color:#eee; display:flex; align-items:center; justify-content:center; }
+  .threads-navbtn.active{ color:#fff; }
+  .threads-navbtn:not(.active){ opacity:.5; }
+  .threads-navbtn svg{ width:24px; height:24px; }
 
   /* ---------- bottom nav ---------- */
   .bottomnav{
@@ -521,10 +602,30 @@
     <div class="thread" id="threadBody"></div>
   </div>
 
-  <!-- ============ THREADS SCREEN ============ -->
+  <!-- ============ THREADS 首頁 ============ -->
   <div class="screen threads-screen" id="screen-threads">
     <div class="threads-topbar">
+      <span style="width:24px;"></span>
       <span class="threads-logo">@ threads</span>
+      <button class="icon-btn threads-icon-btn threads-search-btn" onclick="openThreadsSearch()" aria-label="搜尋">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+    </div>
+    <div class="threads-compose-row" onclick="toast('示範版尚未開放發文功能')">
+      <div class="thread-post-avatar">?</div>
+      <span class="threads-compose-placeholder">有什麼新鮮事？</span>
+    </div>
+    <div id="threadsHomeFeed"></div>
+  </div>
+
+  <!-- ============ THREADS 搜尋 ============ -->
+  <div class="screen threads-screen" id="screen-threads-search">
+    <div class="threads-topbar">
+      <button class="icon-btn threads-icon-btn" onclick="showScreen('threads')" aria-label="返回">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="threads-logo">搜尋</span>
+      <span style="width:24px;"></span>
     </div>
     <div class="threads-search-wrap">
       <input type="text" id="threadsSearchInput" class="threads-search" placeholder="搜尋" oninput="renderThreadsResults(this.value)">
@@ -532,12 +633,43 @@
     <div id="threadsResults"></div>
   </div>
 
-  <!-- ============ FACEBOOK SCREEN ============ -->
+  <!-- ============ FACEBOOK 社團首頁 ============ -->
   <div class="screen fb-screen" id="screen-fb">
     <div class="fb-topbar">
       <span class="fb-logo">facebook</span>
     </div>
+    <div class="fb-cover">🌊</div>
+    <div class="fb-group-meta">
+      <div class="fb-group-name">銓山鎮地方社團</div>
+      <div class="fb-group-sub">公開社團・鎮民交流・含銓山鎮公所公告</div>
+      <div class="fb-group-actions">
+        <button class="fb-joined-btn">✓ 已加入</button>
+        <button class="fb-invite-btn" onclick="toast('示範版尚未開放邀請功能')">＋ 邀請</button>
+      </div>
+      <div class="fb-tabs">
+        <span class="fb-tab active">貼文</span>
+        <span class="fb-tab" onclick="toast('示範版尚未開放此頁籤')">關於</span>
+        <span class="fb-tab" onclick="toast('示範版尚未開放此頁籤')">相片</span>
+      </div>
+    </div>
+    <div class="fb-compose-row" onclick="toast('示範版尚未開放發文功能')">留個言吧⋯⋯</div>
+    <div class="fb-feed-heading">新貼文</div>
     <div id="fbFeed"></div>
+  </div>
+
+  <!-- ============ FACEBOOK 貼文詳情頁 ============ -->
+  <div class="screen fb-screen" id="screen-fb-post">
+    <div class="fb-post-detail-topbar">
+      <button class="icon-btn" onclick="showScreen('fb')" aria-label="返回">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="fb-post-detail-title">貼文</span>
+      <button class="icon-btn" onclick="toast('示範版尚未開放')" aria-label="更多">⋯</button>
+    </div>
+    <div id="fbPostDetailBody"></div>
+    <div class="fb-comment-input-row">
+      <input type="text" placeholder="留言⋯⋯" onclick="toast('示範版尚未開放留言功能')" readonly>
+    </div>
   </div>
 
   <!-- ============ STORY VIEWER (overlay) ============ -->
@@ -573,6 +705,48 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
     </button>
     <button class="navbtn" onclick="toast('這是模擬介面，沒有登入中的帳號喔')" aria-label="個人檔案">
+      <span class="avatar" style="width:24px;height:24px;font-size:10px;background:linear-gradient(135deg,#888,#555);">?</span>
+    </button>
+  </div>
+
+  <!-- ============ Facebook 自身底部導覽 ============ -->
+  <div class="fb-bottomnav">
+    <button class="fb-navbtn active" onclick="showScreen('fb')" aria-label="首頁">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
+    </button>
+    <button class="fb-navbtn" onclick="toast('示範版尚未開放Reels功能')" aria-label="Reels">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9l6 3-6 3z"/></svg>
+      <span class="badge">1</span>
+    </button>
+    <button class="fb-navbtn" onclick="toast('示範版尚未開放朋友功能')" aria-label="朋友">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M15 20c.3-2.5 2-4.3 4-4.8"/></svg>
+    </button>
+    <button class="fb-navbtn" onclick="toast('示範版尚未開放Marketplace功能')" aria-label="Marketplace">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l1.5-5h15L21 9"/><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M9 13v3M15 13v3"/></svg>
+    </button>
+    <button class="fb-navbtn" onclick="toast('示範版尚未開放通知功能')" aria-label="通知">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
+    </button>
+    <button class="fb-navbtn" onclick="toast('這是模擬介面，沒有登入中的帳號喔')" aria-label="個人檔案">
+      <span class="avatar" style="width:24px;height:24px;font-size:10px;background:linear-gradient(135deg,#888,#555);">?</span>
+    </button>
+  </div>
+
+  <!-- ============ Threads 自身底部導覽 ============ -->
+  <div class="threads-bottomnav">
+    <button class="threads-navbtn active" onclick="showScreen('threads')" aria-label="首頁">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
+    </button>
+    <button class="threads-navbtn" onclick="toast('示範版尚未開放發文功能')" aria-label="發文">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>
+    </button>
+    <button class="threads-navbtn" onclick="openThreadsSearch()" aria-label="搜尋">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    </button>
+    <button class="threads-navbtn" onclick="toast('示範版尚未開放通知功能')" aria-label="通知">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
+    </button>
+    <button class="threads-navbtn" onclick="toast('這是模擬介面，沒有登入中的帳號喔')" aria-label="個人檔案">
       <span class="avatar" style="width:24px;height:24px;font-size:10px;background:linear-gradient(135deg,#888,#555);">?</span>
     </button>
   </div>
@@ -687,10 +861,12 @@ const ACCOUNTS = {
 
 const POSTS = [
   { id:1, acc:'yuan', time:'5月1日 10:32', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'🥁',
+    video:true, duration:'0:42',
     caption:'今天太陽好大☀️ 大家辛苦了，下次商演加油💪 #銓山戰鼓隊 #備戰會考',
     likes:142, comments:[{u:'cc_lin23', t:'安安拍照怎麼永遠站C位😂'},{u:'yu_hsuan', t:'辛苦了，下次見～'}] },
 
   { id:14, acc:'cclin', time:'5月3日 17:40', grad:'linear-gradient(135deg,#fbc2eb,#a6c1ee)', icon:'📚',
+    video:true, duration:'0:15',
     caption:'段考複習到一半\n決定先躺平🫠',
     likes:76, comments:[{u:'user4410', t:'我也是😂'},{u:'yu_hsuan', t:'一起躺'}] },
 
@@ -817,6 +993,19 @@ const THREADS_POSTS = [
     comments:[{u:'user_5581', t:'哈哈哈哈笑死'}] }
 ];
 
+/* ============ Threads 首頁：一般滑得到的日常內容，跟隱藏搜尋內容分開 ============ */
+const THREADS_HOME_POSTS = [
+  { handle:'user_7702', tag:'心情', time:'4小時',
+    text:'會考倒數20天\n有點焦慮但還是要加油', likes:56, comments:9, reposts:3, shares:12 },
+  { handle:'user_3315', tag:'迷因', time:'8小時',
+    text:'早自習偷睡被抓包的瞬間\n人生好難', likes:2140, comments:31, reposts:18, shares:44,
+    reply:{ handle:'user_8890', time:'6小時', text:'笑死 我也是' } },
+  { handle:'user_9944', tag:'美食', time:'1天',
+    text:'學校福利社的雞排漲價了😭', likes:88, comments:22, reposts:2, shares:6 },
+  { handle:'user_1206', tag:'閒聊', time:'2天',
+    text:'有人也覺得這禮拜特別漫長嗎', likes:41, comments:7, reposts:1, shares:3 }
+];
+
 /* ============ Facebook：地方社團與鎮公所官方頁面，長輩與鎮民聚集的地方 ============ */
 const FB_ACCOUNTS = {
   towngov: { name:'銓山鎮公所', sub:'官方粉絲專頁', letter:'鎮', grad:'linear-gradient(135deg,#4b6cb7,#182848)' },
@@ -824,7 +1013,7 @@ const FB_ACCOUNTS = {
 };
 
 const FB_POSTS = [
-  { id:'f1', acc:'towngov', time:'5月13日 · 10:02',
+  { id:'f1', acc:'towngov', time:'5月13日 · 10:02', photos:3,
     text:'《銓山媽祖文化季圓滿成功》\n感謝所有鎮民與戰鼓隊小朋友的參與🙏 明年再一起把文化季辦得更好！',
     likes:210, comments:[{u:'林媽媽', t:'鎮長辛苦了，孩子們也很棒'}] },
 
@@ -840,11 +1029,11 @@ const FB_POSTS = [
     text:'《神準占卜少年離奇失蹤，家屬直播尋人》\n昨晚直播看到家屬那麼著急，希望盡快找到人。',
     likes:156, comments:[{u:'黃小姐', t:'看直播看到都哭了'}] },
 
-  { id:'f7', acc:'group', time:'5月9日 · 16:20',
+  { id:'f7', acc:'group', time:'5月9日 · 16:20', photos:1,
     text:'《尋貓啟事》橘白貓「橘子」於海濱路一帶走失，脖子上有黃色鈴鐺項圈，看到請跟我聯絡🙏🐱',
     likes:92, comments:[{u:'陳太太', t:'我這邊有看到類似的，晚點去確認！'}] },
 
-  { id:'f4', acc:'group', time:'5月14日 · 12:30',
+  { id:'f4', acc:'group', time:'5月14日 · 12:30', photos:2,
     text:'海濱路媽祖繞境活動後滿地垃圾，已反映鎮公所，回應會加強宣導。\n辦活動是很好，但收尾也要負責任吧。',
     likes:64, comments:[{u:'王先生', t:'一場明明收三萬元，孩子怎麼說沒拿過錢？'}] },
 
@@ -890,6 +1079,33 @@ function renderStories(){
   }).join('');
 }
 
+function formatCount(n){
+  if(n >= 10000) return (n/10000).toFixed(1).replace(/\.0$/,'') + '萬';
+  return String(n);
+}
+
+function likeCountText(post, liked){
+  const total = post.likes + (liked?1:0);
+  if(post.comments.length > 0){
+    const first = post.comments[0].u;
+    const others = total - 1;
+    return others > 0 ? `${first} 和其他 ${formatCount(others)} 人說讚` : `${first} 說讚`;
+  }
+  return `${formatCount(total)} 個讚`;
+}
+
+const CAPTION_TRUNC_LEN = 40;
+function captionHTML(p, a){
+  const full = p.caption;
+  if(full.length <= CAPTION_TRUNC_LEN) return `<span class="name">${a.handle}</span>${full}`;
+  const short = full.slice(0, CAPTION_TRUNC_LEN);
+  return `<span class="name">${a.handle}</span><span id="capshort-${p.id}">${short}…<button class="cap-more" onclick="expandCaption(${p.id})">更多</button></span><span id="capfull-${p.id}" style="display:none;">${full}</span>`;
+}
+function expandCaption(id){
+  document.getElementById('capshort-'+id).style.display = 'none';
+  document.getElementById('capfull-'+id).style.display = 'inline';
+}
+
 function renderFeed(){
   const list = document.getElementById('feedList');
   list.innerHTML = POSTS.map(p=>{
@@ -907,6 +1123,7 @@ function renderFeed(){
       </div>
       <div class="post-media" style="background:${p.grad}" ondblclick="likePost(${p.id}, true)">
         <span class="icon">${p.icon}</span>
+        ${p.video ? `<span class="duration-badge">${p.duration}</span>` : ''}
         <span class="heart-pop" id="heartpop-${p.id}">❤️</span>
       </div>
       <div class="post-actions">
@@ -924,8 +1141,8 @@ function renderFeed(){
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
         </button>
       </div>
-      <div class="post-likes" id="likecount-${p.id}">${p.likes} 個讚</div>
-      <div class="post-caption"><span class="name">${a.handle}</span>${p.caption}</div>
+      <div class="post-likes" id="likecount-${p.id}">${likeCountText(p, false)}</div>
+      <div class="post-caption">${captionHTML(p, a)}</div>
       <div class="post-comments-preview" id="comments-${p.id}">
         ${hasMore ? `<button class="viewall" onclick="toast('顯示全部 ${p.comments.length} 則留言（示範版略）')">查看全部 ${p.comments.length} 則留言</button>` : ''}
         ${shown.map(c=>`<div class="comment-line"><span class="name">${c.u}</span>${c.t}</div>`).join('')}
@@ -963,7 +1180,7 @@ function likePost(id, fromDblTap){
   else likedState[id] = true;
 
   const post = POSTS.find(p=>p.id===id);
-  document.getElementById('likecount-'+id).textContent = (post.likes + (likedState[id]?1:0)) + ' 個讚';
+  document.getElementById('likecount-'+id).textContent = likeCountText(post, likedState[id]);
   const btn = document.getElementById('likebtn-'+id);
   btn.querySelector('svg').setAttribute('fill', likedState[id] ? 'currentColor' : 'none');
   btn.classList.toggle('liked', likedState[id]);
@@ -982,18 +1199,22 @@ function focusComment(id){
 
 /* ---------- 畫面切換 ---------- */
 const IG_SCREENS = ['feed','profile','dmlist','dmthread'];
+const THREADS_SCREENS = ['threads','threads-search'];
+const FB_SCREENS = ['fb'];
 function showScreen(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+name).classList.add('active');
   document.getElementById('feedTopbar').style.display = (name==='feed') ? 'flex' : 'none';
   document.getElementById('navHome').classList.toggle('active', name==='feed');
   document.querySelector('.bottomnav').style.display = IG_SCREENS.includes(name) ? 'flex' : 'none';
+  document.querySelector('.threads-bottomnav').style.display = THREADS_SCREENS.includes(name) ? 'flex' : 'none';
+  document.querySelector('.fb-bottomnav').style.display = FB_SCREENS.includes(name) ? 'flex' : 'none';
 }
 
 /* ---------- Android 系統導覽列：返回／主畫面／應用程式 ---------- */
 const BACK_TARGET = {
   feed:'home', profile:'feed', dmlist:'feed', dmthread:'dmlist',
-  threads:'home', fb:'home'
+  threads:'home', 'threads-search':'threads', fb:'home', 'fb-post':'fb'
 };
 function currentScreenName(){
   const el = document.querySelector('.screen.active');
@@ -1035,9 +1256,38 @@ function openDMList(){
   showScreen('dmlist');
 }
 
-/* ---------- Threads：獨立小應用，用關鍵字搜尋才找得到匿名帳號 ---------- */
+/* ---------- Threads：首頁滑得到一般日常內容，搜尋才找得到匿名帳號 ---------- */
 function openThreads(){
   showScreen('threads');
+  renderThreadsHomeFeed();
+}
+
+function renderThreadsHomeFeed(){
+  const wrap = document.getElementById('threadsHomeFeed');
+  wrap.innerHTML = THREADS_HOME_POSTS.map(p => `
+    <div class="thread-post">
+      <div class="thread-post-head">
+        <div class="thread-post-avatar">?</div>
+        <span class="thread-post-handle">${p.handle}</span>
+        ${p.tag ? `<span class="thread-post-tag">› ${p.tag}</span>` : ''}
+        <span class="thread-post-time">${p.time}</span>
+      </div>
+      <div class="thread-post-text">${p.text}</div>
+      <div class="thread-post-meta"><span>❤ ${formatCount(p.likes)}</span><span>💬 ${p.comments}</span><span>⇄ ${p.reposts}</span><span>➤ ${p.shares}</span></div>
+      ${p.reply ? `
+      <div class="thread-reply-nested">
+        <div class="thread-post-head">
+          <div class="thread-post-avatar small">?</div>
+          <span class="thread-post-handle">${p.reply.handle}</span>
+          <span class="thread-post-time">${p.reply.time}</span>
+        </div>
+        <div class="thread-post-text">${p.reply.text}</div>
+      </div>` : ''}
+    </div>`).join('');
+}
+
+function openThreadsSearch(){
+  showScreen('threads-search');
   const input = document.getElementById('threadsSearchInput');
   input.value = '';
   renderThreadsResults('');
@@ -1068,7 +1318,7 @@ function renderThreadsResults(query){
         <span class="thread-post-time">${p.time}</span>
       </div>
       <div class="thread-post-text">${p.text}</div>
-      <div class="thread-post-meta"><span>❤ ${p.likes}</span><span>💬 ${p.replies}</span></div>
+      <div class="thread-post-meta"><span>❤ ${formatCount(p.likes)}</span><span>💬 ${p.replies}</span></div>
       ${p.comments.length ? `<div class="thread-post-comments">${p.comments.map(c=>`<div class="thread-comment-line"><b>${c.u}</b>${c.t}</div>`).join('')}</div>` : ''}
     </div>`).join('');
 }
@@ -1079,12 +1329,60 @@ function openFacebook(){
   renderFbFeed();
 }
 
+function fbCaptionHTML(p){
+  const full = p.text;
+  if(full.length <= CAPTION_TRUNC_LEN) return full;
+  const short = full.slice(0, CAPTION_TRUNC_LEN);
+  return `<span id="fbcapshort-${p.id}">${short}…<button class="fb-cap-more" onclick="expandFbCaption('${p.id}')">查看更多</button></span><span id="fbcapfull-${p.id}" style="display:none;">${full}</span>`;
+}
+function expandFbCaption(id){
+  document.getElementById('fbcapshort-'+id).style.display = 'none';
+  document.getElementById('fbcapfull-'+id).style.display = 'inline';
+}
+
+function fbPhotoGridHTML(p){
+  if(!p.photos) return '';
+  const a = FB_ACCOUNTS[p.acc];
+  const shownTiles = Math.min(p.photos, 4);
+  const extra = p.photos - shownTiles;
+  let tiles = '';
+  for(let i=0;i<shownTiles;i++){
+    const isLast = i === shownTiles-1 && extra > 0;
+    tiles += `<div class="fb-photo-tile" style="background:${a.grad}">📷${isLast ? `<span class="more-badge">+${extra}</span>` : ''}</div>`;
+  }
+  return `<div class="fb-photo-grid">${tiles}</div>`;
+}
+
 function renderFbFeed(){
   const wrap = document.getElementById('fbFeed');
   wrap.innerHTML = FB_POSTS.map(p=>{
     const a = FB_ACCOUNTS[p.acc];
     return `
-    <div class="fb-post">
+    <div class="fb-post" onclick="openFbPost('${p.id}')">
+      <div class="fb-post-head">
+        <div class="fb-post-avatar" style="background:${a.grad}">${a.letter}</div>
+        <div>
+          <div class="fb-post-name">${a.name}</div>
+          <div class="fb-post-sub">${a.sub} · ${p.time}</div>
+        </div>
+      </div>
+      <div class="fb-post-text">${fbCaptionHTML(p)}</div>
+      ${fbPhotoGridHTML(p)}
+      <div class="fb-post-actions">
+        <button class="fb-action-btn" onclick="event.stopPropagation(); toast('示範版尚未開放按讚功能')">👍 讚 ${formatCount(p.likes)}</button>
+        <button class="fb-action-btn" onclick="event.stopPropagation(); openFbPost('${p.id}')">💬 留言</button>
+        <button class="fb-action-btn" onclick="event.stopPropagation(); toast('分享功能未開放')">↗ 分享</button>
+      </div>
+      ${p.comments.length ? `<div class="fb-post-comments">${p.comments.map(c=>`<span class="fb-comment-line"><b>${c.u}</b>${c.t}</span>`).join('')}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function openFbPost(id){
+  const p = FB_POSTS.find(x=>x.id===id);
+  const a = FB_ACCOUNTS[p.acc];
+  document.getElementById('fbPostDetailBody').innerHTML = `
+    <div class="fb-post" style="box-shadow:none; margin:0; border-radius:0;">
       <div class="fb-post-head">
         <div class="fb-post-avatar" style="background:${a.grad}">${a.letter}</div>
         <div>
@@ -1093,14 +1391,15 @@ function renderFbFeed(){
         </div>
       </div>
       <div class="fb-post-text">${p.text}</div>
+      ${fbPhotoGridHTML(p)}
       <div class="fb-post-actions">
-        <button class="fb-action-btn" onclick="toast('示範版尚未開放按讚功能')">👍 讚 ${p.likes}</button>
+        <button class="fb-action-btn" onclick="toast('示範版尚未開放按讚功能')">👍 讚 ${formatCount(p.likes)}</button>
         <button class="fb-action-btn" onclick="toast('示範版尚未開放留言功能')">💬 留言</button>
         <button class="fb-action-btn" onclick="toast('分享功能未開放')">↗ 分享</button>
       </div>
-      ${p.comments.length ? `<div class="fb-post-comments">${p.comments.map(c=>`<span class="fb-comment-line"><b>${c.u}</b>${c.t}</span>`).join('')}</div>` : ''}
+      ${p.comments.length ? `<div class="fb-post-comments">${p.comments.map(c=>`<span class="fb-comment-line"><b>${c.u}</b>${c.t}</span>`).join('')}</div>` : `<div class="fb-post-comments" style="color:#65676b; font-size:12.5px;">還沒有留言</div>`}
     </div>`;
-  }).join('');
+  showScreen('fb-post');
 }
 
 function openThread(id){
