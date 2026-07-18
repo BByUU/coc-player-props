@@ -1,0 +1,702 @@
+<title>銓山鎮失蹤調查・IG介面模擬</title>
+<style>
+  :root{
+    --ig-bg:#fafafa;
+    --ig-surface:#ffffff;
+    --ig-text:#262626;
+    --ig-text-soft:#8e8e8e;
+    --ig-border:#dbdbdb;
+    --ig-blue:#0095f6;
+    --ig-red:#ed4956;
+    --ig-story-1:#f09433;
+    --ig-story-2:#e6683c;
+    --ig-story-3:#dc2743;
+    --ig-story-4:#cc2366;
+    --ig-story-5:#bc1888;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ig-bg:#000000;
+      --ig-surface:#121212;
+      --ig-text:#f5f5f5;
+      --ig-text-soft:#a8a8a8;
+      --ig-border:#262626;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ig-bg:#000000; --ig-surface:#121212; --ig-text:#f5f5f5; --ig-text-soft:#a8a8a8; --ig-border:#262626;
+    color-scheme: dark;
+  }
+  :root[data-theme="light"]{
+    --ig-bg:#fafafa; --ig-surface:#ffffff; --ig-text:#262626; --ig-text-soft:#8e8e8e; --ig-border:#dbdbdb;
+    color-scheme: light;
+  }
+
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#e8e8e8;
+    color:var(--ig-text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",Roboto,Helvetica,Arial,sans-serif;
+    display:flex;
+    justify-content:center;
+    min-height:100vh;
+    padding:20px 0;
+  }
+  @media (prefers-color-scheme: dark){ body{ background:#000; } }
+
+  .device{
+    width:390px;
+    max-width:100vw;
+    background:var(--ig-bg);
+    min-height:844px;
+    position:relative;
+    border-radius:36px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+    display:flex;
+    flex-direction:column;
+  }
+  @media (max-width:430px){ .device{ border-radius:0; box-shadow:none; min-height:100vh; } body{ padding:0; } }
+
+  .statusbar{
+    height:20px; flex:none;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:6px 22px 0; font-size:13px; font-weight:600; color:var(--ig-text);
+  }
+
+  .topbar{
+    flex:none;
+    height:48px;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 16px;
+    border-bottom:1px solid var(--ig-border);
+    background:var(--ig-surface);
+  }
+  .topbar .logo{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:22px;
+    font-weight:600;
+    letter-spacing:.2px;
+  }
+  .topbar .icons{ display:flex; gap:16px; align-items:center; }
+  .icon-btn{
+    background:none; border:none; padding:4px; cursor:pointer;
+    color:var(--ig-text); display:flex; align-items:center; justify-content:center;
+  }
+  .icon-btn svg{ width:24px; height:24px; }
+
+  .screen{ flex:1; overflow-y:auto; display:none; scrollbar-width:none; }
+  .screen.active{ display:block; }
+  .screen::-webkit-scrollbar{ display:none; }
+
+  /* ---------- stories bar ---------- */
+  .stories{
+    display:flex; gap:14px; padding:12px 16px; overflow-x:auto;
+    border-bottom:1px solid var(--ig-border);
+    background:var(--ig-surface);
+  }
+  .story-item{ flex:none; width:64px; text-align:center; cursor:pointer; background:none; border:none; }
+  .story-ring{
+    width:60px; height:60px; border-radius:50%;
+    background:linear-gradient(45deg,var(--ig-story-1),var(--ig-story-2),var(--ig-story-3),var(--ig-story-4),var(--ig-story-5));
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 4px;
+  }
+  .story-ring.seen{ background:var(--ig-border); }
+  .avatar{
+    width:54px; height:54px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; color:#fff; font-size:18px;
+    border:2.5px solid var(--ig-surface);
+  }
+  .story-label{ font-size:11.5px; color:var(--ig-text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:64px; }
+
+  /* ---------- feed ---------- */
+  .post{ background:var(--ig-surface); margin-bottom:8px; }
+  .post-head{ display:flex; align-items:center; gap:10px; padding:10px 12px; }
+  .post-head .avatar{ width:34px; height:34px; font-size:13px; border:none; cursor:pointer; }
+  .post-head .who{ flex:1; cursor:pointer; }
+  .post-head .name{ font-size:13.5px; font-weight:600; }
+  .post-head .time{ font-size:11.5px; color:var(--ig-text-soft); }
+  .post-media{
+    width:100%; aspect-ratio:1/1;
+    display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden; cursor:pointer;
+    user-select:none;
+  }
+  .post-media .icon{ font-size:64px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.15)); }
+  .post-media .heart-pop{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    pointer-events:none; opacity:0; font-size:96px; color:#fff;
+    text-shadow:0 2px 12px rgba(0,0,0,.25);
+  }
+  .post-media .heart-pop.pop{ animation:heartpop .8s ease; }
+  @keyframes heartpop{
+    0%{ opacity:0; transform:scale(.5); }
+    15%{ opacity:1; transform:scale(1.15); }
+    30%{ opacity:1; transform:scale(1); }
+    75%{ opacity:1; }
+    100%{ opacity:0; transform:scale(1); }
+  }
+  .post-actions{ display:flex; align-items:center; gap:14px; padding:8px 12px 2px; }
+  .post-actions .icon-btn{ padding:2px; }
+  .post-actions .spacer{ flex:1; }
+  .post-likes{ padding:2px 12px 0; font-size:13.5px; font-weight:600; }
+  .post-caption{ padding:4px 12px 0; font-size:13.5px; line-height:1.4; }
+  .post-caption .name{ font-weight:600; margin-right:5px; }
+  .post-comments-preview{ padding:4px 12px 0; }
+  .post-comments-preview .viewall{ font-size:13px; color:var(--ig-text-soft); background:none; border:none; padding:0; cursor:pointer; display:block; margin-bottom:2px; }
+  .comment-line{ font-size:13.5px; line-height:1.5; }
+  .comment-line .name{ font-weight:600; margin-right:5px; }
+  .post-addcomment{ display:flex; align-items:center; gap:8px; padding:8px 12px 12px; border-top:1px solid transparent; }
+  .post-addcomment input{
+    flex:1; border:none; outline:none; background:none; font-size:13.5px; color:var(--ig-text);
+    font-family:inherit;
+  }
+  .post-addcomment input::placeholder{ color:var(--ig-text-soft); }
+  .post-addcomment button{ background:none; border:none; color:var(--ig-blue); font-weight:600; font-size:13.5px; cursor:pointer; opacity:.4; }
+  .post-addcomment button.enabled{ opacity:1; cursor:pointer; }
+
+  .heart-icon{ color:var(--ig-text); }
+  .heart-icon.liked{ color:var(--ig-red); }
+
+  /* ---------- profile ---------- */
+  .profile-top{ display:flex; align-items:center; gap:16px; padding-bottom:6px; }
+  .back-row{ display:flex; align-items:center; gap:10px; padding:10px 12px 0; }
+  .back-row .name{ font-weight:600; font-size:15px; }
+  .profile-header{ padding:16px; background:var(--ig-surface); }
+  .profile-avatar-row{ display:flex; align-items:center; gap:22px; margin-bottom:12px; }
+  .profile-header .avatar{ width:82px; height:82px; font-size:28px; border:none; flex:none; }
+  .stats{ display:flex; gap:22px; flex:1; }
+  .stat{ text-align:center; }
+  .stat b{ display:block; font-size:16px; }
+  .stat span{ font-size:12.5px; color:var(--ig-text-soft); }
+  .profile-name{ font-weight:600; font-size:13.5px; margin-top:2px; }
+  .profile-bio{ font-size:13.5px; margin-top:4px; white-space:pre-line; line-height:1.4; color:var(--ig-text); }
+  .profile-tags{ font-size:12.5px; color:var(--ig-blue); margin-top:2px; }
+  .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:2px; }
+  .grid .cell{ aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+  .grid .cell .icon{ font-size:30px; }
+
+  /* ---------- dm ---------- */
+  .dm-list-item{ display:flex; align-items:center; gap:12px; padding:10px 16px; cursor:pointer; }
+  .dm-list-item .avatar{ width:52px; height:52px; font-size:18px; border:none; }
+  .dm-list-item .meta{ flex:1; min-width:0; }
+  .dm-list-item .name{ font-size:14.5px; font-weight:600; }
+  .dm-list-item .preview{ font-size:13px; color:var(--ig-text-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .dm-list-item .badge{ font-size:11px; color:var(--ig-text-soft); }
+  .dm-note{ margin:10px 14px; padding:10px 12px; background:var(--ig-border); border-radius:10px; font-size:12px; color:var(--ig-text-soft); line-height:1.5; }
+
+  .thread{ padding:12px 12px 90px; display:flex; flex-direction:column; gap:6px; }
+  .bubble-row{ display:flex; }
+  .bubble-row.me{ justify-content:flex-end; }
+  .bubble{
+    max-width:72%;
+    padding:9px 13px;
+    border-radius:18px;
+    font-size:14px;
+    line-height:1.4;
+  }
+  .bubble-row:not(.me) .bubble{ background:var(--ig-border); color:var(--ig-text); border-bottom-left-radius:5px; }
+  .bubble-row.me .bubble{ background:var(--ig-blue); color:#fff; border-bottom-right-radius:5px; }
+  .thread-daymark{ text-align:center; font-size:11.5px; color:var(--ig-text-soft); margin:10px 0 4px; }
+  .thread-header{ display:flex; align-items:center; gap:10px; padding:8px 12px; border-bottom:1px solid var(--ig-border); }
+  .thread-header .avatar{ width:32px; height:32px; font-size:12px; border:none; }
+  .thread-header .name{ font-weight:600; font-size:14.5px; }
+  .thread-header .sub{ font-size:11.5px; color:var(--ig-text-soft); }
+
+  /* ---------- bottom nav ---------- */
+  .bottomnav{
+    flex:none; display:flex; align-items:center; justify-content:space-around;
+    height:52px; border-top:1px solid var(--ig-border); background:var(--ig-surface);
+  }
+  .navbtn{ background:none; border:none; padding:6px; cursor:pointer; color:var(--ig-text); display:flex; align-items:center; justify-content:center; }
+  .navbtn svg{ width:26px; height:26px; }
+  .navbtn.active{ color:var(--ig-text); }
+  .navbtn:not(.active){ opacity:.55; }
+
+  /* ---------- story viewer ---------- */
+  .story-viewer{
+    position:absolute; inset:0; background:#000; z-index:50;
+    display:none; flex-direction:column;
+  }
+  .story-viewer.active{ display:flex; }
+  .story-progress{ display:flex; gap:4px; padding:8px 8px 0; }
+  .story-progress .bar{ flex:1; height:2.5px; background:rgba(255,255,255,.35); border-radius:2px; overflow:hidden; }
+  .story-progress .bar .fill{ height:100%; width:0%; background:#fff; }
+  .story-progress .bar.done .fill{ width:100%; }
+  .story-vheader{ display:flex; align-items:center; gap:10px; padding:10px 14px; color:#fff; }
+  .story-vheader .avatar{ width:32px; height:32px; font-size:12px; border:none; }
+  .story-vheader .name{ font-weight:600; font-size:14px; }
+  .story-vheader .time{ font-size:12px; opacity:.75; }
+  .story-vheader .close{ margin-left:auto; background:none; border:none; color:#fff; font-size:22px; cursor:pointer; padding:4px 8px; }
+  .story-body{ flex:1; display:flex; align-items:center; justify-content:center; position:relative; }
+  .story-body .icon{ font-size:96px; }
+  .story-caption{
+    position:absolute; bottom:28px; left:0; right:0; text-align:center;
+    color:#fff; font-size:16px; font-weight:600; text-shadow:0 2px 8px rgba(0,0,0,.4); padding:0 20px;
+  }
+  .story-taparea{ position:absolute; top:0; bottom:0; width:34%; }
+  .story-taparea.left{ left:0; }
+  .story-taparea.right{ right:0; }
+
+  .toast{
+    position:absolute; left:50%; bottom:70px; transform:translateX(-50%);
+    background:rgba(38,38,38,.92); color:#fff; padding:9px 16px; border-radius:10px;
+    font-size:13px; opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:60; white-space:nowrap;
+  }
+  .toast.show{ opacity:1; }
+</style>
+
+<div class="device">
+  <div class="statusbar">
+    <span id="clock">21:07</span>
+    <span>●●●●  🔋</span>
+  </div>
+
+  <!-- ============ FEED SCREEN ============ -->
+  <div class="topbar" id="feedTopbar">
+    <span class="logo">Instagram</span>
+    <div class="icons">
+      <button class="icon-btn" onclick="openDMList()" title="訊息" aria-label="訊息">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6l10 7 10-7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="screen active" id="screen-feed">
+    <div class="stories" id="storiesBar"></div>
+    <div id="feedList"></div>
+  </div>
+
+  <!-- ============ PROFILE SCREEN ============ -->
+  <div class="screen" id="screen-profile">
+    <div class="back-row">
+      <button class="icon-btn" onclick="showScreen('feed')" aria-label="返回">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="name" id="profileHandle"></span>
+    </div>
+    <div class="profile-header">
+      <div class="profile-avatar-row">
+        <div class="avatar" id="profileAvatar"></div>
+        <div class="stats">
+          <div class="stat"><b id="profilePostCount"></b><span>貼文</span></div>
+          <div class="stat"><b id="profileFollowers"></b><span>粉絲</span></div>
+          <div class="stat"><b id="profileFollowing"></b><span>追蹤中</span></div>
+        </div>
+      </div>
+      <div class="profile-name" id="profileName"></div>
+      <div class="profile-bio" id="profileBio"></div>
+    </div>
+    <div class="grid" id="profileGrid"></div>
+  </div>
+
+  <!-- ============ DM LIST SCREEN ============ -->
+  <div class="screen" id="screen-dmlist">
+    <div class="back-row" style="padding-bottom:8px;">
+      <button class="icon-btn" onclick="showScreen('feed')" aria-label="返回">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="name">訊息</span>
+    </div>
+    <div class="dm-note">📎 這些對話紀錄是調查員透過合法程序取得的手機備份匯出檔，並非即時通訊 — 僅供劇情調查用途呈現。</div>
+    <div id="dmListItems"></div>
+  </div>
+
+  <!-- ============ DM THREAD SCREEN ============ -->
+  <div class="screen" id="screen-dmthread">
+    <div class="thread-header">
+      <button class="icon-btn" onclick="showScreen('dmlist')" aria-label="返回">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="avatar" id="threadAvatar"></div>
+      <div>
+        <div class="name" id="threadName"></div>
+        <div class="sub" id="threadSub"></div>
+      </div>
+    </div>
+    <div class="thread" id="threadBody"></div>
+  </div>
+
+  <!-- ============ STORY VIEWER (overlay) ============ -->
+  <div class="story-viewer" id="storyViewer">
+    <div class="story-progress" id="storyProgress"></div>
+    <div class="story-vheader">
+      <div class="avatar" id="storyAvatar"></div>
+      <span class="name" id="storyName"></span>
+      <span class="time" id="storyTime"></span>
+      <button class="close" onclick="closeStory()" aria-label="關閉">&times;</button>
+    </div>
+    <div class="story-body">
+      <span class="icon" id="storyIcon"></span>
+      <div class="story-caption" id="storyCaption"></div>
+      <div class="story-taparea left" onclick="storyPrev()"></div>
+      <div class="story-taparea right" onclick="storyNext()"></div>
+    </div>
+  </div>
+
+  <div class="bottomnav">
+    <button class="navbtn active" id="navHome" onclick="showScreen('feed')" aria-label="首頁">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
+    </button>
+    <button class="navbtn" onclick="toast('示範版尚未開放搜尋功能')" aria-label="搜尋">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    </button>
+    <button class="navbtn" onclick="toast('示範版尚未開放發文功能')" aria-label="新增">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>
+    </button>
+    <button class="navbtn" onclick="toast('示範版尚未開放通知功能')" aria-label="通知">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
+    </button>
+    <button class="navbtn" onclick="toast('這是模擬介面，沒有登入中的帳號喔')" aria-label="個人檔案">
+      <span class="avatar" style="width:24px;height:24px;font-size:10px;background:linear-gradient(135deg,#888,#555);">?</span>
+    </button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* ============ 資料區：之後要擴充新角色，只要在這裡加資料即可 ============ */
+
+const ACCOUNTS = {
+  yuan: {
+    handle:'yuan.zhan05', name:'粘雨安', title:'國三生・銓山戰鼓隊',
+    bio:'國三｜🥁銓山戰鼓隊｜銓山國中\n感謝一路上支持我們的大家🙏', tag:'#銓山戰鼓隊',
+    grad:'linear-gradient(135deg,#ffafbd,#ffc3a0)', letter:'粘',
+    followers:'892', following:'213',
+    hasStory:true, storySeen:false,
+    storyGrad:'linear-gradient(160deg,#0f2027,#203a43,#2c5364)', storyIcon:'🌙', storyCaption:'晚安',
+    storyTime:'23小時前'
+  },
+  jie: {
+    handle:'szjie___', name:'王思潔', title:'國三生',
+    bio:'國三｜銓山國中', tag:'',
+    grad:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', letter:'思',
+    followers:'456', following:'380',
+    hasStory:true, storySeen:false,
+    storyGrad:'linear-gradient(160deg,#485563,#29323c)', storyIcon:'🏙️', storyCaption:'好想去別的地方看看',
+    storyTime:'1天前'
+  },
+  assoc: {
+    handle:'quanshan_culture', name:'銓山海洋文化協會', title:'官方帳號',
+    bio:'銓山海洋文化協會 官方帳號\n用鼓聲陪伴偏鄉孩子🥁', tag:'',
+    grad:'linear-gradient(135deg,#f6d365,#fda085)', letter:'協',
+    followers:'3,204', following:'12',
+    hasStory:true, storySeen:true,
+    storyGrad:'linear-gradient(160deg,#f6d365,#fda085)', storyIcon:'📣', storyCaption:'配合調查，戰鼓隊暫停活動',
+    storyTime:'2天前'
+  },
+  anon: {
+    handle:'quanshan_jhs_anon', name:'銓山國中匿名爆料', title:'匿名帳號',
+    bio:'銓山國中學生自發串連\n有話想說的都可以來投稿 📮', tag:'',
+    grad:'linear-gradient(135deg,#606c88,#3f4c6b)', letter:'匿',
+    followers:'1,105', following:'3',
+    hasStory:false
+  }
+};
+
+const POSTS = [
+  { id:1, acc:'yuan', time:'5月1日 10:32', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'🥁',
+    caption:'今天太陽好大☀️ 大家辛苦了，下次商演加油💪 #銓山戰鼓隊 #備戰會考',
+    likes:142, comments:[{u:'cc_lin23', t:'安安拍照怎麼永遠站C位😂'},{u:'yu_hsuan', t:'辛苦了，下次見～'}] },
+
+  { id:2, acc:'assoc', time:'5月4日 18:00', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'🏮',
+    caption:'【媽祖誕辰系列活動】明日預演開始🙏 感謝戰鼓隊小朋友們全力配合，讓我們把最好的一面呈現給大家！',
+    likes:89, comments:[] },
+
+  { id:3, acc:'yuan', time:'5月5日 08:47', grad:'linear-gradient(135deg,#ffdde1,#ee9ca7)', icon:'📸',
+    caption:'預演前拍一張紀念😊 好期待今晚',
+    likes:168, comments:[{u:'cc_lin23', t:'安安今天好美！'}] },
+
+  { id:4, acc:'yuan', time:'5月7日 19:15', grad:'linear-gradient(135deg,#e0c3fc,#8ec5fc)', icon:'🍱',
+    caption:'謝謝協會今天發的便當🍱 好吃',
+    likes:121, comments:[{u:'cc_lin23', t:'妳最近都好安靜喔，還好嗎？'}] },
+
+  { id:5, acc:'anon', time:'5月9日 22:41', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
+    caption:'會考倒數還要夜訓，誰敢說不去？',
+    likes:340, comments:[{u:'user8821', t:'說真的…'}] },
+
+  { id:6, acc:'jie', time:'5月10日 21:03', grad:'linear-gradient(135deg,#485563,#29323c)', icon:'🌆',
+    caption:'好想去別的地方看看喔',
+    likes:76, comments:[] },
+
+  { id:7, acc:'anon', time:'5月11日 23:02', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
+    caption:'自願參加＝導師一個一個打電話問為什麼不簽。',
+    likes:512, comments:[{u:'user4410', t:'…是真的'}] },
+
+  { id:8, acc:'yuan', time:'5月12日 23:58', grad:'linear-gradient(160deg,#0f2027,#203a43,#2c5364)', icon:'🌙',
+    caption:'晚安🌙',
+    likes:98, comments:[{u:'yu_hsuan', t:'這麼晚還沒睡？'}] },
+
+  { id:9, acc:'assoc', time:'5月13日 09:10', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'📣',
+    caption:'【公告】配合調查，戰鼓隊即日起暫停集訓與演出，造成不便敬請見諒🙏',
+    likes:45, comments:[] },
+
+  { id:10, acc:'anon', time:'5月14日 20:15', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
+    caption:'演出費到底去哪裡？我們只拿到便當和一張獎狀。',
+    likes:601, comments:[{u:'user1129', t:'早就想問了'},{u:'user8821', t:'求協會出來說清楚'}] }
+];
+
+const DM_THREADS = [
+  {
+    id:'jie_chengen', otherAcc:'jie',
+    otherLabel:'王思潔', otherHandle:'szjie___', sub:'與 chengen.tw 的對話',
+    preview:'我家裡有鬼 😂', time:'5月上旬',
+    messages:[
+      {day:'5月2日', m:[]},
+      {who:'jie', t:'欸 幫我一個忙'},
+      {who:'jie', t:'我家人一直查我是不是在談戀愛'},
+      {who:'jie', t:'可以先假裝一下嗎 拜託'},
+      {who:'me', t:'什麼假裝'},
+      {who:'jie', t:'就 網路上裝成我男友 這樣他們比較不會管我'},
+      {who:'me', t:'……喔 好啦'},
+      {day:'5月9日', m:[]},
+      {who:'jie', t:'可以先去你家住幾天嗎'},
+      {who:'me', t:'妳家不是很有錢 幹嘛不回家'},
+      {who:'jie', t:'我家裡有鬼'},
+      {who:'jie', t:'😂'},
+      {who:'me', t:'妳很奇怪欸'}
+    ]
+  }
+];
+
+/* ============ 渲染邏輯 ============ */
+
+function avatarHTML(acc, size){
+  const a = ACCOUNTS[acc];
+  return `<div class="avatar" style="background:${a.grad};${size?`width:${size}px;height:${size}px;font-size:${Math.round(size*0.34)}px;`:''}">${a.letter}</div>`;
+}
+
+function renderStories(){
+  const bar = document.getElementById('storiesBar');
+  bar.innerHTML = Object.keys(ACCOUNTS).filter(k=>ACCOUNTS[k].hasStory).map(k=>{
+    const a = ACCOUNTS[k];
+    return `<button class="story-item" onclick="openStory('${k}')">
+      <div class="story-ring ${a.storySeen?'seen':''}">${avatarHTML(k,54)}</div>
+      <div class="story-label">${a.name}</div>
+    </button>`;
+  }).join('');
+}
+
+function renderFeed(){
+  const list = document.getElementById('feedList');
+  list.innerHTML = POSTS.map(p=>{
+    const a = ACCOUNTS[p.acc];
+    const shown = p.comments.slice(-2);
+    const hasMore = p.comments.length > 2;
+    return `
+    <article class="post" id="post-${p.id}">
+      <div class="post-head">
+        <div onclick="openProfile('${p.acc}')" style="cursor:pointer;">${avatarHTML(p.acc,34)}</div>
+        <div class="who" onclick="openProfile('${p.acc}')">
+          <div class="name">${a.handle}</div>
+        </div>
+        <div class="time">${p.time}</div>
+      </div>
+      <div class="post-media" style="background:${p.grad}" ondblclick="likePost(${p.id}, true)">
+        <span class="icon">${p.icon}</span>
+        <span class="heart-pop" id="heartpop-${p.id}">❤️</span>
+      </div>
+      <div class="post-actions">
+        <button class="icon-btn heart-icon" id="likebtn-${p.id}" onclick="likePost(${p.id})" aria-label="讚">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.9-10-9.3C.4 8 2 4.5 5.6 4A5.8 5.8 0 0112 7a5.8 5.8 0 016.4-3c3.6.5 5.2 4 3.6 7.7C19.5 16.1 12 21 12 21z"/></svg>
+        </button>
+        <button class="icon-btn" onclick="focusComment(${p.id})" aria-label="留言">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 01-4 4H8l-5 3V6a4 4 0 014-4h10a4 4 0 014 4z"/></svg>
+        </button>
+        <button class="icon-btn" onclick="toast('分享功能未開放')" aria-label="分享">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+        <span class="spacer"></span>
+        <button class="icon-btn" onclick="toast('收藏功能未開放')" aria-label="收藏">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        </button>
+      </div>
+      <div class="post-likes" id="likecount-${p.id}">${p.likes} 個讚</div>
+      <div class="post-caption"><span class="name">${a.handle}</span>${p.caption}</div>
+      <div class="post-comments-preview" id="comments-${p.id}">
+        ${hasMore ? `<button class="viewall" onclick="toast('顯示全部 ${p.comments.length} 則留言（示範版略）')">查看全部 ${p.comments.length} 則留言</button>` : ''}
+        ${shown.map(c=>`<div class="comment-line"><span class="name">${c.u}</span>${c.t}</div>`).join('')}
+      </div>
+      <div class="post-addcomment">
+        <input type="text" placeholder="留言..." id="input-${p.id}" onkeydown="if(event.key==='Enter')submitComment(${p.id})" oninput="toggleSend(${p.id})">
+        <button id="send-${p.id}" onclick="submitComment(${p.id})">發佈</button>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+function toggleSend(id){
+  const input = document.getElementById('input-'+id);
+  const btn = document.getElementById('send-'+id);
+  btn.classList.toggle('enabled', input.value.trim().length>0);
+}
+
+function submitComment(id){
+  const input = document.getElementById('input-'+id);
+  const val = input.value.trim();
+  if(!val) return;
+  const post = POSTS.find(p=>p.id===id);
+  post.comments.push({u:'you', t:val});
+  input.value='';
+  document.getElementById('send-'+id).classList.remove('enabled');
+  renderFeed();
+}
+
+const likedState = {};
+function likePost(id, fromDblTap){
+  const already = likedState[id];
+  if(fromDblTap && already) return; // already liked, just show heart pop
+  if(!fromDblTap) likedState[id] = !already;
+  else likedState[id] = true;
+
+  const post = POSTS.find(p=>p.id===id);
+  document.getElementById('likecount-'+id).textContent = (post.likes + (likedState[id]?1:0)) + ' 個讚';
+  const btn = document.getElementById('likebtn-'+id);
+  btn.querySelector('svg').setAttribute('fill', likedState[id] ? 'currentColor' : 'none');
+  btn.classList.toggle('liked', likedState[id]);
+
+  if(fromDblTap){
+    const pop = document.getElementById('heartpop-'+id);
+    pop.classList.remove('pop'); void pop.offsetWidth; pop.classList.add('pop');
+  }
+}
+
+function focusComment(id){
+  const el = document.getElementById('input-'+id);
+  el.focus();
+  el.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* ---------- 畫面切換 ---------- */
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.getElementById('feedTopbar').style.display = (name==='feed') ? 'flex' : 'none';
+  document.getElementById('navHome').classList.toggle('active', name==='feed');
+}
+
+function openDMList(){
+  const wrap = document.getElementById('dmListItems');
+  wrap.innerHTML = DM_THREADS.map(th=>{
+    const a = ACCOUNTS[th.otherAcc];
+    return `<div class="dm-list-item" onclick="openThread('${th.id}')">
+      ${avatarHTML(th.otherAcc,52)}
+      <div class="meta">
+        <div class="name">${a.name}</div>
+        <div class="preview">${th.preview}</div>
+      </div>
+      <div class="badge">${th.time}</div>
+    </div>`;
+  }).join('');
+  showScreen('dmlist');
+}
+
+function openThread(id){
+  const th = DM_THREADS.find(t=>t.id===id);
+  const a = ACCOUNTS[th.otherAcc];
+  document.getElementById('threadAvatar').outerHTML = avatarHTML(th.otherAcc,32).replace('class="avatar"','class="avatar" id="threadAvatar"');
+  document.getElementById('threadName').textContent = a.name;
+  document.getElementById('threadSub').textContent = th.sub;
+  const body = document.getElementById('threadBody');
+  body.innerHTML = th.messages.map(m=>{
+    if(m.day) return `<div class="thread-daymark">${m.day}</div>`;
+    return `<div class="bubble-row ${m.who==='me'?'me':''}"><div class="bubble">${m.t}</div></div>`;
+  }).join('');
+  showScreen('dmthread');
+  setTimeout(()=>{ body.scrollTop = body.scrollHeight; }, 30);
+}
+
+function openProfile(acc){
+  const a = ACCOUNTS[acc];
+  document.getElementById('profileHandle').textContent = a.handle;
+  document.getElementById('profileAvatar').outerHTML = avatarHTML(acc,82).replace('class="avatar"','class="avatar" id="profileAvatar"');
+  const myPosts = POSTS.filter(p=>p.acc===acc);
+  document.getElementById('profilePostCount').textContent = myPosts.length;
+  document.getElementById('profileFollowers').textContent = a.followers;
+  document.getElementById('profileFollowing').textContent = a.following;
+  document.getElementById('profileName').textContent = a.name + (a.title?'　'+a.title:'');
+  document.getElementById('profileBio').textContent = a.bio;
+  document.getElementById('profileGrid').innerHTML = myPosts.map(p=>`
+    <div class="cell" style="background:${p.grad}" onclick="showScreen('feed'); setTimeout(()=>document.getElementById('post-${p.id}').scrollIntoView({behavior:'smooth',block:'center'}),80)">
+      <span class="icon">${p.icon}</span>
+    </div>`).join('');
+  showScreen('profile');
+}
+
+/* ---------- 限時動態 viewer ---------- */
+let storyQueue = [];
+let storyIdx = 0;
+let storyTimer = null;
+
+function openStory(acc){
+  storyQueue = Object.keys(ACCOUNTS).filter(k=>ACCOUNTS[k].hasStory);
+  storyIdx = storyQueue.indexOf(acc);
+  document.getElementById('storyViewer').classList.add('active');
+  renderStoryProgress();
+  showStoryFrame();
+}
+function renderStoryProgress(){
+  const wrap = document.getElementById('storyProgress');
+  wrap.innerHTML = storyQueue.map((_,i)=>`<div class="bar ${i<storyIdx?'done':''}" id="sbar-${i}"><div class="fill"></div></div>`).join('');
+}
+function showStoryFrame(){
+  clearTimeout(storyTimer);
+  const acc = storyQueue[storyIdx];
+  const a = ACCOUNTS[acc];
+  document.getElementById('storyAvatar').outerHTML = avatarHTML(acc,32).replace('class="avatar"','class="avatar" id="storyAvatar"');
+  document.getElementById('storyName').textContent = a.handle;
+  document.getElementById('storyTime').textContent = a.storyTime;
+  document.querySelector('.story-body').style.background = a.storyGrad;
+  document.getElementById('storyIcon').textContent = a.storyIcon;
+  document.getElementById('storyCaption').textContent = a.storyCaption;
+  a.storySeen = true;
+  renderStoryProgress();
+  const fill = document.getElementById('sbar-'+storyIdx).querySelector('.fill');
+  fill.style.transition='none'; fill.style.width='0%';
+  requestAnimationFrame(()=>{
+    fill.style.transition='width 4.5s linear';
+    fill.style.width='100%';
+  });
+  storyTimer = setTimeout(storyNext, 4600);
+}
+function storyNext(){
+  if(storyIdx < storyQueue.length-1){ storyIdx++; showStoryFrame(); }
+  else { closeStory(); }
+}
+function storyPrev(){
+  if(storyIdx > 0){ storyIdx--; showStoryFrame(); }
+}
+function closeStory(){
+  clearTimeout(storyTimer);
+  document.getElementById('storyViewer').classList.remove('active');
+  renderStories();
+}
+
+/* ---------- toast ---------- */
+let toastTimer=null;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 1800);
+}
+
+/* ---------- clock ---------- */
+function tickClock(){
+  const el = document.getElementById('clock');
+  const d = new Date();
+  el.textContent = String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+tickClock(); setInterval(tickClock, 15000);
+
+/* ---------- init ---------- */
+renderStories();
+renderFeed();
+</script>
