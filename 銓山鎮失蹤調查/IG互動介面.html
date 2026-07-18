@@ -259,6 +259,36 @@
   .thread-header .name{ font-weight:600; font-size:14.5px; }
   .thread-header .sub{ font-size:11.5px; color:var(--ig-text-soft); }
 
+  /* ---------- threads (獨立小應用，黑白極簡風格區隔於IG) ---------- */
+  .threads-switch-btn{ font-weight:700; font-size:17px; font-family:Georgia,serif; }
+  .threads-screen{ background:#000; color:#fff; }
+  .threads-topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    height:48px; padding:0 14px; border-bottom:1px solid #262626;
+  }
+  .threads-icon-btn{ color:#fff; }
+  .threads-logo{ font-weight:700; font-size:16px; letter-spacing:.3px; }
+  .threads-search-wrap{ padding:10px 14px; }
+  .threads-search{
+    width:100%; padding:10px 14px; border-radius:20px; border:1px solid #333;
+    background:#181818; color:#fff; font-size:14px; outline:none; font-family:inherit;
+  }
+  .threads-search:focus{ border-color:#666; }
+  .threads-empty{ text-align:center; color:#777; font-size:13px; padding:40px 20px; }
+  .thread-post{ padding:12px 14px; border-bottom:1px solid #1c1c1c; }
+  .thread-post-head{ display:flex; align-items:center; gap:9px; }
+  .thread-post-avatar{
+    width:34px; height:34px; border-radius:50%; background:#2a2a2a;
+    display:flex; align-items:center; justify-content:center; color:#666; font-size:15px; flex:none;
+  }
+  .thread-post-handle{ font-size:13.5px; font-weight:600; color:#fff; }
+  .thread-post-time{ font-size:12px; color:#777; margin-left:auto; }
+  .thread-post-text{ font-size:14px; color:#eee; line-height:1.5; margin:6px 0 8px 43px; white-space:pre-line; }
+  .thread-post-meta{ display:flex; gap:16px; margin-left:43px; font-size:12.5px; color:#777; }
+  .thread-post-comments{ margin:8px 0 0 43px; padding-top:8px; border-top:1px solid #1c1c1c; }
+  .thread-comment-line{ font-size:13px; color:#ccc; line-height:1.6; }
+  .thread-comment-line b{ color:#fff; font-weight:600; margin-right:5px; }
+
   /* ---------- bottom nav ---------- */
   .bottomnav{
     flex:none; display:flex; align-items:center; justify-content:space-around;
@@ -319,6 +349,7 @@
   <div class="topbar" id="feedTopbar">
     <span class="logo">Instagram</span>
     <div class="icons">
+      <button class="icon-btn threads-switch-btn" onclick="openThreads()" title="切換到 Threads" aria-label="切換到 Threads">@</button>
       <button class="icon-btn" onclick="openDMList()" title="訊息" aria-label="訊息">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6l10 7 10-7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
       </button>
@@ -388,6 +419,21 @@
       </div>
     </div>
     <div class="thread" id="threadBody"></div>
+  </div>
+
+  <!-- ============ THREADS SCREEN ============ -->
+  <div class="screen threads-screen" id="screen-threads">
+    <div class="threads-topbar">
+      <button class="icon-btn threads-icon-btn" onclick="showScreen('feed')" aria-label="返回 Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="threads-logo">@ threads</span>
+      <span style="width:24px;"></span>
+    </div>
+    <div class="threads-search-wrap">
+      <input type="text" id="threadsSearchInput" class="threads-search" placeholder="搜尋" oninput="renderThreadsResults(this.value)">
+    </div>
+    <div id="threadsResults"></div>
   </div>
 
   <!-- ============ STORY VIEWER (overlay) ============ -->
@@ -488,6 +534,11 @@ const ACCOUNTS = {
     handle:'boyu_h', name:'黃柏宇', title:'國三生',
     bio:'🔮',
     grad:'linear-gradient(135deg,#3a1c71,#4a2574)', letter:'黃'
+  },
+  pinyu: {
+    handle:'pinyu_h', name:'洪品妤', title:'國二生',
+    bio:'國二｜拍片中📹',
+    grad:'linear-gradient(135deg,#84fab0,#8fd3f4)', letter:'洪'
   }
 };
 
@@ -496,9 +547,17 @@ const POSTS = [
     caption:'今天太陽好大☀️ 大家辛苦了，下次商演加油💪 #銓山戰鼓隊 #備戰會考',
     likes:142, comments:[{u:'cc_lin23', t:'安安拍照怎麼永遠站C位😂'},{u:'yu_hsuan', t:'辛苦了，下次見～'}] },
 
+  { id:1.1, acc:'assoc', time:'4月28日 19:30', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'🥁',
+    caption:'看看我們的媽祖繞境！戰鼓也很認真地為媽祖演奏🥁🙏 #銓山戰鼓隊 #傳承文化',
+    likes:276, comments:[{u:'user5521', t:'孩子們好厲害'}] },
+
   { id:2, acc:'assoc', time:'5月4日 18:00', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'🏮',
     caption:'【媽祖誕辰系列活動】明日預演開始🙏 感謝戰鼓隊小朋友們全力配合，讓我們把最好的一面呈現給大家！',
     likes:89, comments:[] },
+
+  { id:2.1, acc:'assoc', time:'5月12日 22:50', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'🎊',
+    caption:'5/12～5/13 銓山媽祖繞境戰鼓表演📣\n繞境盛況！感謝大家熱情參與🙏',
+    likes:412, comments:[{u:'user7710', t:'鑼鼓喧天 太熱鬧了'},{u:'user5521', t:'孩子們辛苦了'}] },
 
   { id:3, acc:'yuan', time:'5月5日 08:47', grad:'linear-gradient(135deg,#ffdde1,#ee9ca7)', icon:'📸',
     caption:'預演前拍一張紀念😊 好期待今晚',
@@ -581,6 +640,19 @@ const DM_THREADS = [
       {who:'jie', t:'ㄏㄏ'}
     ]
   }
+];
+
+/* ============ Threads：匿名爆料的另一個藏身處，用關鍵字搜尋才找得到 ============ */
+const THREADS_POSTS = [
+  { id:'t1', handle:'user_6234', tags:['銓山鎮','戰鼓'], time:'3天前',
+    text:'都晚上了還要練身法隊形\n手真的要斷了', likes:23, replies:4,
+    comments:[{u:'user_1187', t:'辛苦了 抱抱'}] },
+  { id:'t2', handle:'user_9021', tags:['銓山鎮','戰鼓'], time:'5天前',
+    text:'便當難吃就算了\n還很摳', likes:41, replies:9,
+    comments:[{u:'pinyu_h', t:'真的很靠北'}] },
+  { id:'t3', handle:'user_4470', tags:['銓山鎮'], time:'1週前',
+    text:'練到晚上十點是正常的嗎\n是不會早點放人喔', likes:17, replies:2,
+    comments:[] }
 ];
 
 /* ============ 解鎖狀態（存在這台裝置的 localStorage，跟其他玩家的裝置各自獨立） ============ */
@@ -727,6 +799,44 @@ function openDMList(){
     </div>`;
   }).join('');
   showScreen('dmlist');
+}
+
+/* ---------- Threads：獨立小應用，用關鍵字搜尋才找得到匿名帳號 ---------- */
+function openThreads(){
+  showScreen('threads');
+  const input = document.getElementById('threadsSearchInput');
+  input.value = '';
+  renderThreadsResults('');
+  setTimeout(()=>input.focus(), 50);
+}
+
+function renderThreadsResults(query){
+  const q = (query || '').trim();
+  const wrap = document.getElementById('threadsResults');
+  const matches = q === '' ? [] : THREADS_POSTS.filter(p =>
+    p.tags.some(tag => tag.includes(q) || q.includes(tag))
+  );
+
+  if(q === ''){
+    wrap.innerHTML = `<div class="threads-empty">試試搜尋「銓山鎮」或「戰鼓」看看</div>`;
+    return;
+  }
+  if(matches.length === 0){
+    wrap.innerHTML = `<div class="threads-empty">沒有符合「${q}」的貼文</div>`;
+    return;
+  }
+
+  wrap.innerHTML = matches.map(p => `
+    <div class="thread-post">
+      <div class="thread-post-head">
+        <div class="thread-post-avatar">?</div>
+        <span class="thread-post-handle">${p.handle}</span>
+        <span class="thread-post-time">${p.time}</span>
+      </div>
+      <div class="thread-post-text">${p.text}</div>
+      <div class="thread-post-meta"><span>❤ ${p.likes}</span><span>💬 ${p.replies}</span></div>
+      ${p.comments.length ? `<div class="thread-post-comments">${p.comments.map(c=>`<div class="thread-comment-line"><b>${c.u}</b>${c.t}</div>`).join('')}</div>` : ''}
+    </div>`).join('');
 }
 
 function openThread(id){
