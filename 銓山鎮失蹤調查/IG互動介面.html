@@ -673,6 +673,15 @@ const ACCOUNTS = {
     handle:'pinyu_h', name:'洪品妤', title:'國二生',
     bio:'國二｜拍片中📹',
     grad:'linear-gradient(135deg,#84fab0,#8fd3f4)', letter:'洪'
+  },
+  cclin: {
+    handle:'cc_lin23', name:'林思辰', title:'國三生・銓山戰鼓隊',
+    bio:'國三｜🥁銓山戰鼓隊\n貓奴一枚🐱',
+    grad:'linear-gradient(135deg,#fbc2eb,#a6c1ee)', letter:'辰',
+    followers:'310', following:'188',
+    storyFrames:[
+      { grad:'linear-gradient(135deg,#fbc2eb,#a6c1ee)', icon:'🐱', caption:'貓主子今天心情不錯', time:'6小時前' }
+    ]
   }
 };
 
@@ -681,6 +690,10 @@ const POSTS = [
     caption:'今天太陽好大☀️ 大家辛苦了，下次商演加油💪 #銓山戰鼓隊 #備戰會考',
     likes:142, comments:[{u:'cc_lin23', t:'安安拍照怎麼永遠站C位😂'},{u:'yu_hsuan', t:'辛苦了，下次見～'}] },
 
+  { id:14, acc:'cclin', time:'5月3日 17:40', grad:'linear-gradient(135deg,#fbc2eb,#a6c1ee)', icon:'📚',
+    caption:'段考複習到一半\n決定先躺平🫠',
+    likes:76, comments:[{u:'user4410', t:'我也是😂'},{u:'yu_hsuan', t:'一起躺'}] },
+
   { id:1.1, acc:'assoc', time:'4月28日 19:30', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'🥁',
     caption:'看看我們的媽祖繞境！戰鼓也很認真地為媽祖演奏🥁🙏 #銓山戰鼓隊 #傳承文化',
     likes:276, comments:[{u:'user5521', t:'孩子們好厲害'}] },
@@ -688,6 +701,14 @@ const POSTS = [
   { id:2, acc:'assoc', time:'5月4日 18:00', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'🏮',
     caption:'【媽祖誕辰系列活動】明日預演開始🙏 感謝戰鼓隊小朋友們全力配合，讓我們把最好的一面呈現給大家！',
     likes:89, comments:[] },
+
+  { id:16, acc:'boyu', time:'5月6日 22:30', grad:'linear-gradient(135deg,#ffb347,#ffcc33)', icon:'🍜',
+    caption:'超商即期品又被搶購一空\n只好吃泡麵',
+    likes:54, comments:[{u:'user2231', t:'哈哈哈日常'}] },
+
+  { id:15, acc:'cclin', time:'5月8日 12:05', grad:'linear-gradient(135deg,#fbc2eb,#a6c1ee)', icon:'🐱',
+    caption:'貓主子今天又佔了我的床🐱\n是我在寄居才對',
+    likes:134, comments:[{u:'yu_hsuan', t:'貓咪也太可愛了吧'}] },
 
   { id:2.1, acc:'assoc', time:'5月12日 22:50', grad:'linear-gradient(135deg,#f6d365,#fda085)', icon:'🎊',
     caption:'5/12～5/13 銓山媽祖繞境戰鼓表演📣\n繞境盛況！感謝大家熱情參與🙏',
@@ -700,6 +721,10 @@ const POSTS = [
   { id:4, acc:'yuan', time:'5月7日 19:15', grad:'linear-gradient(135deg,#e0c3fc,#8ec5fc)', icon:'🍱',
     caption:'謝謝協會今天發的便當🍱 好吃',
     likes:121, comments:[{u:'cc_lin23', t:'妳最近都好安靜喔，還好嗎？'}] },
+
+  { id:17, acc:'yuan', time:'5月10日 16:50', grad:'linear-gradient(135deg,#a8edea,#fed6e3)', icon:'🧋',
+    caption:'手搖飲第二杯半價的誘惑😩\n意志力歸零',
+    likes:112, comments:[{u:'cc_lin23', t:'我也要一杯😂'}] },
 
   { id:5, acc:'anon', time:'5月9日 22:41', grad:'linear-gradient(135deg,#606c88,#3f4c6b)', icon:'📮',
     caption:'會考倒數還要夜訓，誰敢說不去？',
@@ -786,7 +811,10 @@ const THREADS_POSTS = [
     comments:[{u:'pinyu_h', t:'真的很靠北'}] },
   { id:'t3', handle:'user_4470', tags:['銓山鎮'], time:'1週前',
     text:'練到晚上十點是正常的嗎\n是不會早點放人喔', likes:17, replies:2,
-    comments:[] }
+    comments:[] },
+  { id:'t4', handle:'user_2093', tags:['貓','迷因'], time:'2天前',
+    text:'我家狗看到自己尾巴轉圈圈半小時\n到底在幹嘛', likes:88, replies:12,
+    comments:[{u:'user_5581', t:'哈哈哈哈笑死'}] }
 ];
 
 /* ============ Facebook：地方社團與鎮公所官方頁面，長輩與鎮民聚集的地方 ============ */
@@ -804,9 +832,17 @@ const FB_POSTS = [
     text:'《連三名國中生失蹤，是會考壓力還是相約離家？》\n大家都怎麼看這件事？希望孩子們都平安。',
     likes:88, comments:[{u:'路人甲', t:'現在的小孩抗壓性真的差很多'},{u:'陳先生', t:'還是要多關心一下比較好吧…'}] },
 
+  { id:'f8', acc:'group', time:'5月7日 · 10:00',
+    text:'社區跳蚤市場開賣啦！\n地點：銓山國小操場，好物出清中～',
+    likes:45, comments:[] },
+
   { id:'f3', acc:'group', time:'5月10日 · 08:15',
     text:'《神準占卜少年離奇失蹤，家屬直播尋人》\n昨晚直播看到家屬那麼著急，希望盡快找到人。',
     likes:156, comments:[{u:'黃小姐', t:'看直播看到都哭了'}] },
+
+  { id:'f7', acc:'group', time:'5月9日 · 16:20',
+    text:'《尋貓啟事》橘白貓「橘子」於海濱路一帶走失，脖子上有黃色鈴鐺項圈，看到請跟我聯絡🙏🐱',
+    likes:92, comments:[{u:'陳太太', t:'我這邊有看到類似的，晚點去確認！'}] },
 
   { id:'f4', acc:'group', time:'5月14日 · 12:30',
     text:'海濱路媽祖繞境活動後滿地垃圾，已反映鎮公所，回應會加強宣導。\n辦活動是很好，但收尾也要負責任吧。',
