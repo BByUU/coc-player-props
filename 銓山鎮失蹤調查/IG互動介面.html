@@ -289,6 +289,44 @@
   .thread-comment-line{ font-size:13px; color:#ccc; line-height:1.6; }
   .thread-comment-line b{ color:#fff; font-weight:600; margin-right:5px; }
 
+  /* ---------- 手機主畫面 ---------- */
+  .home-screen{ background:linear-gradient(160deg,#2b2b3d,#1a1a24); }
+  .home-header{ padding:26px 20px 6px; text-align:center; }
+  .home-header .home-time{ font-size:15px; color:#cfcfe0; letter-spacing:.5px; }
+  .home-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px 14px; padding:14px 18px; }
+  .home-app{ display:flex; flex-direction:column; align-items:center; gap:6px; background:none; border:none; cursor:pointer; padding:0; font-family:inherit; }
+  .home-app-icon{
+    width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    font-size:26px; color:#fff; font-weight:700; box-shadow:0 4px 10px rgba(0,0,0,.25);
+  }
+  .home-app-icon-ig{ background:linear-gradient(135deg,#f9ce34,#ee2a7b 55%,#6228d7); font-size:24px; }
+  .home-app-icon-threads{ background:#000; border:1px solid #3a3a3a; font-family:Georgia,serif; }
+  .home-app-icon-fb{ background:#1877f2; font-family:Georgia,serif; font-style:italic; font-size:30px; }
+  .home-app span{ font-size:11px; color:#e8e8f0; }
+
+  /* ---------- facebook（獨立小應用，藍色系仿FB風格區隔於IG/Threads） ---------- */
+  .fb-screen{ background:#f0f2f5; color:#050505; }
+  .fb-topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    height:48px; padding:0 14px; background:#1877f2; color:#fff; flex:none;
+  }
+  .fb-icon-btn{ color:#fff; }
+  .fb-logo{ font-weight:800; font-size:19px; font-style:italic; font-family:Georgia,serif; letter-spacing:.3px; }
+  .fb-post{ background:#fff; margin:8px; border-radius:10px; padding:12px 14px; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .fb-post-head{ display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .fb-post-avatar{
+    width:38px; height:38px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    color:#fff; font-weight:700; font-size:14px; flex:none;
+  }
+  .fb-post-name{ font-size:14px; font-weight:700; color:#050505; }
+  .fb-post-sub{ font-size:11.5px; color:#65676b; }
+  .fb-post-text{ font-size:14px; line-height:1.5; color:#050505; margin-bottom:8px; white-space:pre-line; }
+  .fb-post-actions{ display:flex; border-top:1px solid #eee; padding-top:4px; gap:4px; }
+  .fb-action-btn{ flex:1; text-align:center; padding:6px 0; font-size:12.5px; color:#65676b; font-weight:600; background:none; border:none; cursor:pointer; border-radius:6px; }
+  .fb-post-comments{ margin-top:8px; padding-top:8px; border-top:1px solid #eee; }
+  .fb-comment-line{ font-size:12.5px; color:#050505; background:#f0f2f5; border-radius:14px; padding:6px 12px; display:block; margin-bottom:4px; width:fit-content; max-width:100%; }
+  .fb-comment-line b{ font-weight:700; margin-right:5px; }
+
   /* ---------- bottom nav ---------- */
   .bottomnav{
     flex:none; display:flex; align-items:center; justify-content:space-around;
@@ -345,18 +383,39 @@
     <span>●●●●  🔋</span>
   </div>
 
+  <!-- ============ 手機主畫面 ============ -->
+  <div class="screen active home-screen" id="screen-home">
+    <div class="home-header"><span class="home-time">我的手機</span></div>
+    <div class="home-grid">
+      <button class="home-app" onclick="showScreen('feed')">
+        <div class="home-app-icon home-app-icon-ig">📷</div>
+        <span>Instagram</span>
+      </button>
+      <button class="home-app" onclick="openThreads()">
+        <div class="home-app-icon home-app-icon-threads">@</div>
+        <span>Threads</span>
+      </button>
+      <button class="home-app" onclick="openFacebook()">
+        <div class="home-app-icon home-app-icon-fb">f</div>
+        <span>Facebook</span>
+      </button>
+    </div>
+  </div>
+
   <!-- ============ FEED SCREEN ============ -->
   <div class="topbar" id="feedTopbar">
+    <button class="icon-btn" onclick="showScreen('home')" title="回到主畫面" aria-label="回到主畫面">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
+    </button>
     <span class="logo">Instagram</span>
     <div class="icons">
-      <button class="icon-btn threads-switch-btn" onclick="openThreads()" title="切換到 Threads" aria-label="切換到 Threads">@</button>
       <button class="icon-btn" onclick="openDMList()" title="訊息" aria-label="訊息">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6l10 7 10-7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
       </button>
     </div>
   </div>
 
-  <div class="screen active" id="screen-feed">
+  <div class="screen" id="screen-feed">
     <div class="stories" id="storiesBar"></div>
     <div id="feedList"></div>
   </div>
@@ -424,7 +483,7 @@
   <!-- ============ THREADS SCREEN ============ -->
   <div class="screen threads-screen" id="screen-threads">
     <div class="threads-topbar">
-      <button class="icon-btn threads-icon-btn" onclick="showScreen('feed')" aria-label="返回 Instagram">
+      <button class="icon-btn threads-icon-btn" onclick="showScreen('home')" aria-label="回到主畫面">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
       <span class="threads-logo">@ threads</span>
@@ -434,6 +493,18 @@
       <input type="text" id="threadsSearchInput" class="threads-search" placeholder="搜尋" oninput="renderThreadsResults(this.value)">
     </div>
     <div id="threadsResults"></div>
+  </div>
+
+  <!-- ============ FACEBOOK SCREEN ============ -->
+  <div class="screen fb-screen" id="screen-fb">
+    <div class="fb-topbar">
+      <button class="icon-btn fb-icon-btn" onclick="showScreen('home')" aria-label="回到主畫面">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="fb-logo">facebook</span>
+      <span style="width:24px;"></span>
+    </div>
+    <div id="fbFeed"></div>
   </div>
 
   <!-- ============ STORY VIEWER (overlay) ============ -->
@@ -655,6 +726,38 @@ const THREADS_POSTS = [
     comments:[] }
 ];
 
+/* ============ Facebook：地方社團與鎮公所官方頁面，長輩與鎮民聚集的地方 ============ */
+const FB_ACCOUNTS = {
+  towngov: { name:'銓山鎮公所', sub:'官方粉絲專頁', letter:'鎮', grad:'linear-gradient(135deg,#4b6cb7,#182848)' },
+  group:   { name:'銓山鎮地方社團', sub:'公開社團・鎮民交流', letter:'社', grad:'linear-gradient(135deg,#56ab2f,#a8e063)' }
+};
+
+const FB_POSTS = [
+  { id:'f1', acc:'towngov', time:'5月13日 · 10:02',
+    text:'《銓山媽祖文化季圓滿成功》\n感謝所有鎮民與戰鼓隊小朋友的參與🙏 明年再一起把文化季辦得更好！',
+    likes:210, comments:[{u:'林媽媽', t:'鎮長辛苦了，孩子們也很棒'}] },
+
+  { id:'f2', acc:'group', time:'5月11日 · 21:47',
+    text:'《連三名國中生失蹤，是會考壓力還是相約離家？》\n大家都怎麼看這件事？希望孩子們都平安。',
+    likes:88, comments:[{u:'路人甲', t:'現在的小孩抗壓性真的差很多'},{u:'陳先生', t:'還是要多關心一下比較好吧…'}] },
+
+  { id:'f3', acc:'group', time:'5月10日 · 08:15',
+    text:'《神準占卜少年離奇失蹤，家屬直播尋人》\n昨晚直播看到家屬那麼著急，希望盡快找到人。',
+    likes:156, comments:[{u:'黃小姐', t:'看直播看到都哭了'}] },
+
+  { id:'f4', acc:'group', time:'5月14日 · 12:30',
+    text:'海濱路媽祖繞境活動後滿地垃圾，已反映鎮公所，回應會加強宣導。\n辦活動是很好，但收尾也要負責任吧。',
+    likes:64, comments:[{u:'王先生', t:'一場明明收三萬元，孩子怎麼說沒拿過錢？'}] },
+
+  { id:'f5', acc:'towngov', time:'5月16日 · 09:00',
+    text:'鎮長慰問失蹤學生家屬，呼籲鄉親勿散布未經證實之消息，共同維護鎮上治安與家屬隱私。',
+    likes:302, comments:[] },
+
+  { id:'f6', acc:'towngov', time:'4月20日 · 14:20',
+    text:'《十年前掃毒、十年後重生：銓山地方創生紀錄》\n本鎮爭取文化觀光亮點城鎮補助，感謝中央與各界支持。',
+    likes:177, comments:[{u:'李里長', t:'這十年真的不容易，繼續加油'}] }
+];
+
 /* ============ 解鎖狀態（存在這台裝置的 localStorage，跟其他玩家的裝置各自獨立） ============ */
 const UNLOCK_KEY = 'quanshan_ig_unlocked_accounts';
 function getUnlocked(){
@@ -779,11 +882,13 @@ function focusComment(id){
 }
 
 /* ---------- 畫面切換 ---------- */
+const IG_SCREENS = ['feed','profile','dmlist','dmthread'];
 function showScreen(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+name).classList.add('active');
   document.getElementById('feedTopbar').style.display = (name==='feed') ? 'flex' : 'none';
   document.getElementById('navHome').classList.toggle('active', name==='feed');
+  document.querySelector('.bottomnav').style.display = IG_SCREENS.includes(name) ? 'flex' : 'none';
 }
 
 function openDMList(){
@@ -837,6 +942,36 @@ function renderThreadsResults(query){
       <div class="thread-post-meta"><span>❤ ${p.likes}</span><span>💬 ${p.replies}</span></div>
       ${p.comments.length ? `<div class="thread-post-comments">${p.comments.map(c=>`<div class="thread-comment-line"><b>${c.u}</b>${c.t}</div>`).join('')}</div>` : ''}
     </div>`).join('');
+}
+
+/* ---------- Facebook：地方社團與鎮公所頁面 ---------- */
+function openFacebook(){
+  showScreen('fb');
+  renderFbFeed();
+}
+
+function renderFbFeed(){
+  const wrap = document.getElementById('fbFeed');
+  wrap.innerHTML = FB_POSTS.map(p=>{
+    const a = FB_ACCOUNTS[p.acc];
+    return `
+    <div class="fb-post">
+      <div class="fb-post-head">
+        <div class="fb-post-avatar" style="background:${a.grad}">${a.letter}</div>
+        <div>
+          <div class="fb-post-name">${a.name}</div>
+          <div class="fb-post-sub">${a.sub} · ${p.time}</div>
+        </div>
+      </div>
+      <div class="fb-post-text">${p.text}</div>
+      <div class="fb-post-actions">
+        <button class="fb-action-btn" onclick="toast('示範版尚未開放按讚功能')">👍 讚 ${p.likes}</button>
+        <button class="fb-action-btn" onclick="toast('示範版尚未開放留言功能')">💬 留言</button>
+        <button class="fb-action-btn" onclick="toast('分享功能未開放')">↗ 分享</button>
+      </div>
+      ${p.comments.length ? `<div class="fb-post-comments">${p.comments.map(c=>`<span class="fb-comment-line"><b>${c.u}</b>${c.t}</span>`).join('')}</div>` : ''}
+    </div>`;
+  }).join('');
 }
 
 function openThread(id){
@@ -1084,4 +1219,5 @@ tickClock(); setInterval(tickClock, 15000);
 /* ---------- init ---------- */
 renderStories();
 renderFeed();
+showScreen('home');
 </script>
