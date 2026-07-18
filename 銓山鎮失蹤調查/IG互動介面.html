@@ -61,7 +61,7 @@
     max-height:100vh;
     max-height:100dvh;
     position:relative;
-    border-radius:36px;
+    border-radius:20px;
     overflow:hidden;
     box-shadow:0 20px 60px rgba(0,0,0,.35);
     display:flex;
@@ -72,10 +72,49 @@
     body{ padding:0; height:100vh; height:100dvh; }
   }
 
+  .punchhole{
+    position:absolute; top:9px; left:50%; transform:translateX(-50%);
+    width:10px; height:10px; border-radius:50%; background:#000; z-index:999; pointer-events:none;
+  }
+
   .statusbar{
-    height:20px; flex:none;
+    height:24px; flex:none;
     display:flex; align-items:center; justify-content:space-between;
-    padding:6px 22px 0; font-size:13px; font-weight:600; color:var(--ig-text);
+    padding:6px 16px 0; font-size:12.5px; font-weight:600; color:var(--ig-text);
+  }
+  .statusbar-icons{ display:flex; align-items:center; gap:5px; }
+  .statusbar-icons svg{ width:16px; height:16px; }
+
+  /* ---------- Android 系統導覽列（返回／主頁／應用程式） ---------- */
+  .androidnav{
+    flex:none; height:44px; background:#000;
+    display:flex; align-items:center; justify-content:space-around;
+  }
+  .androidnav-btn{
+    background:none; border:none; cursor:pointer; padding:0;
+    width:33.33%; height:100%; display:flex; align-items:center; justify-content:center; color:#eee;
+  }
+  .androidnav-btn svg{ width:22px; height:22px; }
+  .androidnav-circle{ width:19px; height:19px; border-radius:50%; border:2px solid #eee; }
+  .androidnav-square{ width:15px; height:15px; border:2px solid #eee; border-radius:3px; }
+
+  /* ---------- 應用程式（近期使用）overlay ---------- */
+  .recentapps-overlay{
+    position:absolute; inset:0; background:rgba(18,18,22,.97); z-index:70;
+    display:none; flex-direction:column; align-items:center; padding:44px 24px 0;
+  }
+  .recentapps-overlay.active{ display:flex; }
+  .recentapps-title{ color:#e8e8e8; font-size:14px; letter-spacing:.5px; margin-bottom:22px; }
+  .recentapps-list{ display:flex; flex-direction:column; gap:14px; width:100%; max-width:270px; }
+  .recentapp-card{
+    display:flex; align-items:center; gap:14px; background:#232326; border:1px solid #333;
+    border-radius:14px; padding:13px 16px; cursor:pointer; width:100%; font-family:inherit;
+  }
+  .recentapp-card span{ color:#fff; font-size:14px; font-weight:600; }
+  .recentapp-icon{ width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; color:#fff; flex:none; }
+  .recentapps-close{
+    margin-top:26px; background:none; border:1px solid #444; color:#ccc; padding:8px 22px;
+    border-radius:20px; font-size:13px; cursor:pointer;
   }
 
   .topbar{
@@ -263,7 +302,7 @@
   .threads-switch-btn{ font-weight:700; font-size:17px; font-family:Georgia,serif; }
   .threads-screen{ background:#000; color:#fff; }
   .threads-topbar{
-    display:flex; align-items:center; justify-content:space-between;
+    display:flex; align-items:center; justify-content:center;
     height:48px; padding:0 14px; border-bottom:1px solid #262626;
   }
   .threads-icon-btn{ color:#fff; }
@@ -307,7 +346,7 @@
   /* ---------- facebook（獨立小應用，藍色系仿FB風格區隔於IG/Threads） ---------- */
   .fb-screen{ background:#f0f2f5; color:#050505; }
   .fb-topbar{
-    display:flex; align-items:center; justify-content:space-between;
+    display:flex; align-items:center; justify-content:center;
     height:48px; padding:0 14px; background:#1877f2; color:#fff; flex:none;
   }
   .fb-icon-btn{ color:#fff; }
@@ -378,9 +417,14 @@
 </style>
 
 <div class="device">
+  <div class="punchhole"></div>
   <div class="statusbar">
     <span id="clock">21:07</span>
-    <span>●●●●  🔋</span>
+    <span class="statusbar-icons">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 22h2v-4H2v4zm5 0h2v-8H7v8zm5 0h2v-12h-2v12zm5 0h2v-16h-2v16zm5 0h2V4h-2v18z"/></svg>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20a1.6 1.6 0 110-3.2 1.6 1.6 0 010 3.2zM6 13.4a8.5 8.5 0 0112 0l-1.8 1.8a6 6 0 00-8.4 0zM2.5 9.9a13.5 13.5 0 0119 0l-1.8 1.9a11 11 0 00-15.4 0z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4" fill="currentColor" stroke="none"/><rect x="4" y="9" width="12" height="6" fill="currentColor" stroke="none"/></svg>
+    </span>
   </div>
 
   <!-- ============ 手機主畫面 ============ -->
@@ -404,9 +448,6 @@
 
   <!-- ============ FEED SCREEN ============ -->
   <div class="topbar" id="feedTopbar">
-    <button class="icon-btn" onclick="showScreen('home')" title="回到主畫面" aria-label="回到主畫面">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
-    </button>
     <span class="logo">Instagram</span>
     <div class="icons">
       <button class="icon-btn" onclick="openDMList()" title="訊息" aria-label="訊息">
@@ -483,11 +524,7 @@
   <!-- ============ THREADS SCREEN ============ -->
   <div class="screen threads-screen" id="screen-threads">
     <div class="threads-topbar">
-      <button class="icon-btn threads-icon-btn" onclick="showScreen('home')" aria-label="回到主畫面">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
       <span class="threads-logo">@ threads</span>
-      <span style="width:24px;"></span>
     </div>
     <div class="threads-search-wrap">
       <input type="text" id="threadsSearchInput" class="threads-search" placeholder="搜尋" oninput="renderThreadsResults(this.value)">
@@ -498,11 +535,7 @@
   <!-- ============ FACEBOOK SCREEN ============ -->
   <div class="screen fb-screen" id="screen-fb">
     <div class="fb-topbar">
-      <button class="icon-btn fb-icon-btn" onclick="showScreen('home')" aria-label="回到主畫面">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
       <span class="fb-logo">facebook</span>
-      <span style="width:24px;"></span>
     </div>
     <div id="fbFeed"></div>
   </div>
@@ -541,6 +574,36 @@
     </button>
     <button class="navbtn" onclick="toast('這是模擬介面，沒有登入中的帳號喔')" aria-label="個人檔案">
       <span class="avatar" style="width:24px;height:24px;font-size:10px;background:linear-gradient(135deg,#888,#555);">?</span>
+    </button>
+  </div>
+
+  <!-- ============ 應用程式（近期使用）overlay ============ -->
+  <div class="recentapps-overlay" id="recentAppsOverlay">
+    <div class="recentapps-title">應用程式</div>
+    <div class="recentapps-list">
+      <button class="recentapp-card" onclick="showScreen('feed'); closeRecentApps();">
+        <div class="recentapp-icon home-app-icon-ig">📷</div><span>Instagram</span>
+      </button>
+      <button class="recentapp-card" onclick="openThreads(); closeRecentApps();">
+        <div class="recentapp-icon home-app-icon-threads">@</div><span>Threads</span>
+      </button>
+      <button class="recentapp-card" onclick="openFacebook(); closeRecentApps();">
+        <div class="recentapp-icon home-app-icon-fb">f</div><span>Facebook</span>
+      </button>
+    </div>
+    <button class="recentapps-close" onclick="closeRecentApps()">關閉</button>
+  </div>
+
+  <!-- ============ Android 系統導覽列 ============ -->
+  <div class="androidnav">
+    <button class="androidnav-btn" onclick="androidBack()" aria-label="返回">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 4L7 12l8 8z"/></svg>
+    </button>
+    <button class="androidnav-btn" onclick="androidHome()" aria-label="主畫面">
+      <span class="androidnav-circle"></span>
+    </button>
+    <button class="androidnav-btn" onclick="openRecentApps()" aria-label="應用程式">
+      <span class="androidnav-square"></span>
     </button>
   </div>
 
@@ -889,6 +952,36 @@ function showScreen(name){
   document.getElementById('feedTopbar').style.display = (name==='feed') ? 'flex' : 'none';
   document.getElementById('navHome').classList.toggle('active', name==='feed');
   document.querySelector('.bottomnav').style.display = IG_SCREENS.includes(name) ? 'flex' : 'none';
+}
+
+/* ---------- Android 系統導覽列：返回／主畫面／應用程式 ---------- */
+const BACK_TARGET = {
+  feed:'home', profile:'feed', dmlist:'feed', dmthread:'dmlist',
+  threads:'home', fb:'home'
+};
+function currentScreenName(){
+  const el = document.querySelector('.screen.active');
+  return el ? el.id.replace('screen-','') : 'home';
+}
+function androidBack(){
+  if(document.getElementById('recentAppsOverlay').classList.contains('active')){ closeRecentApps(); return; }
+  if(document.getElementById('storyViewer').classList.contains('active')){ closeStory(); return; }
+  const fo = document.getElementById('followingOverlay');
+  if(fo && fo.classList.contains('active')){ closeFollowingList(); return; }
+  const target = BACK_TARGET[currentScreenName()];
+  if(target) showScreen(target);
+}
+function androidHome(){
+  document.getElementById('recentAppsOverlay').classList.remove('active');
+  document.getElementById('storyViewer').classList.remove('active');
+  const fo = document.getElementById('followingOverlay'); if(fo) fo.classList.remove('active');
+  showScreen('home');
+}
+function openRecentApps(){
+  document.getElementById('recentAppsOverlay').classList.add('active');
+}
+function closeRecentApps(){
+  document.getElementById('recentAppsOverlay').classList.remove('active');
 }
 
 function openDMList(){
