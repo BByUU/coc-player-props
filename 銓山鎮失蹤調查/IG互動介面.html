@@ -103,7 +103,7 @@
     position:absolute; inset:0; background:rgba(18,18,22,.97); z-index:70;
     display:none; flex-direction:column; align-items:center; padding:44px 24px 0;
   }
-  .recentapps-overlay.active{ display:flex; }
+  .recentapps-overlay.active{ display:flex; animation:overlayFadeIn .18s ease; }
   .recentapps-title{ color:#e8e8e8; font-size:14px; letter-spacing:.5px; margin-bottom:22px; }
   .recentapps-list{ display:flex; flex-direction:column; gap:14px; width:100%; max-width:270px; }
   .recentapp-card{
@@ -141,6 +141,22 @@
   .screen{ flex:1; overflow-y:auto; display:none; scrollbar-width:none; }
   .screen.active{ display:block; }
   .screen::-webkit-scrollbar{ display:none; }
+  @keyframes slideInRight{ from{ transform:translateX(26px); opacity:0; } to{ transform:translateX(0); opacity:1; } }
+  @keyframes slideInLeft{ from{ transform:translateX(-26px); opacity:0; } to{ transform:translateX(0); opacity:1; } }
+  .screen.slide-in-right{ animation:slideInRight .22s ease; }
+  .screen.slide-in-left{ animation:slideInLeft .22s ease; }
+  @keyframes overlayFadeIn{ from{ opacity:0; } to{ opacity:1; } }
+  @media (prefers-reduced-motion: reduce){
+    .screen.slide-in-right, .screen.slide-in-left{ animation:none; }
+  }
+
+  /* ---------- 按下回饋（觸控真實感） ---------- */
+  .icon-btn:active, .navbtn:active, .androidnav-btn:active, .home-app:active,
+  .story-item:active, .stat:active, .profile-tab:active, .fb-navbtn:active,
+  .threads-navbtn:active, .recentapp-card:active, .dm-list-item:active,
+  .fb-post:active{ opacity:.55; }
+  .post-head .avatar:active{ opacity:.6; }
+  .fb-action-btn:active{ background:#f0f2f5; }
 
   /* ---------- stories bar ---------- */
   .stories{
@@ -201,9 +217,9 @@
   .post-likes{ padding:2px 12px 0; font-size:13.5px; font-weight:600; }
   .post-caption{ padding:4px 12px 0; font-size:13.5px; line-height:1.4; white-space:pre-line; }
   .post-caption .name{ font-weight:600; margin-right:5px; }
-  .cap-more{ background:none; border:none; padding:0; color:var(--ig-text-soft); font-size:13.5px; font-weight:600; cursor:pointer; font-family:inherit; }
+  .cap-more{ background:none; border:none; padding:4px 2px; margin:-4px 0; color:var(--ig-text-soft); font-size:13.5px; font-weight:600; cursor:pointer; font-family:inherit; }
   .post-comments-preview{ padding:4px 12px 0; }
-  .post-comments-preview .viewall{ font-size:13px; color:var(--ig-text-soft); background:none; border:none; padding:0; cursor:pointer; display:block; margin-bottom:2px; }
+  .post-comments-preview .viewall{ font-size:13px; color:var(--ig-text-soft); background:none; border:none; padding:4px 0; cursor:pointer; display:block; margin-bottom:2px; }
   .comment-line{ font-size:13.5px; line-height:1.5; }
   .comment-line .name{ font-weight:600; margin-right:5px; }
   .post-addcomment{ display:flex; align-items:center; gap:8px; padding:8px 12px 12px; border-top:1px solid transparent; }
@@ -275,7 +291,7 @@
     position:absolute; inset:0; background:var(--ig-bg); z-index:40;
     display:none; flex-direction:column;
   }
-  .list-overlay.active{ display:flex; }
+  .list-overlay.active{ display:flex; animation:overlayFadeIn .18s ease; }
   .list-item{ display:flex; align-items:center; gap:12px; padding:10px 16px; }
   .list-item .avatar{ width:44px; height:44px; font-size:15px; border:none; }
   .list-item .name{ font-size:14px; font-weight:600; }
@@ -371,7 +387,7 @@
   .fb-comment-line{ font-size:12.5px; color:#050505; background:#f0f2f5; border-radius:14px; padding:6px 12px; display:block; margin-bottom:4px; width:fit-content; max-width:100%; }
   .fb-comment-line b{ font-weight:700; margin-right:5px; }
   .fb-post{ cursor:pointer; }
-  .fb-cap-more{ background:none; border:none; padding:0; color:#65676b; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; }
+  .fb-cap-more{ background:none; border:none; padding:4px 2px; margin:-4px 0; color:#65676b; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; }
   .fb-photo-grid{ display:grid; grid-template-columns:1fr 1fr; gap:3px; margin:0 -14px 8px; }
   .fb-photo-tile{
     aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
@@ -415,6 +431,8 @@
     flex:1; border:none; outline:none; background:#f0f2f5; border-radius:18px; padding:9px 14px;
     font-size:13.5px; font-family:inherit;
   }
+  .fb-comment-send{ background:none; border:none; color:#1877f2; font-weight:700; font-size:13.5px; cursor:pointer; padding:6px 4px; }
+  .fb-action-btn.fb-liked{ color:#1877f2; }
 
   /* ---------- FB 底部導覽（app自身的分頁列） ---------- */
   .fb-bottomnav{
@@ -459,7 +477,7 @@
 
   /* ---------- story viewer ---------- */
   .story-viewer{ position:absolute; inset:0; background:#000; z-index:50; display:none; flex-direction:column; }
-  .story-viewer.active{ display:flex; }
+  .story-viewer.active{ display:flex; animation:overlayFadeIn .18s ease; }
   .story-progress{ display:flex; gap:4px; padding:8px 8px 0; }
   .story-progress .bar{ flex:1; height:2.5px; background:rgba(255,255,255,.35); border-radius:2px; overflow:hidden; }
   .story-progress .bar .fill{ height:100%; width:0%; background:#fff; }
@@ -668,7 +686,8 @@
     </div>
     <div id="fbPostDetailBody"></div>
     <div class="fb-comment-input-row">
-      <input type="text" placeholder="留言⋯⋯" onclick="toast('示範版尚未開放留言功能')" readonly>
+      <input type="text" placeholder="留言⋯⋯" id="fbCommentInput" onkeydown="if(event.key==='Enter')fbSubmitComment()">
+      <button class="fb-comment-send" onclick="fbSubmitComment()">發佈</button>
     </div>
   </div>
 
@@ -1106,12 +1125,27 @@ function expandCaption(id){
   document.getElementById('capfull-'+id).style.display = 'inline';
 }
 
+const expandedComments = {};
+function toggleAllComments(id){
+  expandedComments[id] = true;
+  refreshPostMeta(id);
+}
+function commentsPreviewHTML(post){
+  const id = post.id;
+  const all = expandedComments[id];
+  const shown = all ? post.comments : post.comments.slice(-2);
+  const hasMore = !all && post.comments.length > 2;
+  return `
+    ${hasMore ? `<button class="viewall" onclick="toggleAllComments(${id})">查看全部 ${post.comments.length} 則留言</button>` : ''}
+    ${shown.map(c=>`<div class="comment-line"><span class="name">${c.u}</span>${c.t}</div>`).join('')}
+  `;
+}
+
 function renderFeed(){
   const list = document.getElementById('feedList');
   list.innerHTML = POSTS.map(p=>{
     const a = ACCOUNTS[p.acc];
-    const shown = p.comments.slice(-2);
-    const hasMore = p.comments.length > 2;
+    const liked = !!likedState[p.id];
     return `
     <article class="post" id="post-${p.id}">
       <div class="post-head">
@@ -1127,8 +1161,8 @@ function renderFeed(){
         <span class="heart-pop" id="heartpop-${p.id}">❤️</span>
       </div>
       <div class="post-actions">
-        <button class="icon-btn heart-icon" id="likebtn-${p.id}" onclick="likePost(${p.id})" aria-label="讚">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.9-10-9.3C.4 8 2 4.5 5.6 4A5.8 5.8 0 0112 7a5.8 5.8 0 016.4-3c3.6.5 5.2 4 3.6 7.7C19.5 16.1 12 21 12 21z"/></svg>
+        <button class="icon-btn heart-icon ${liked?'liked':''}" id="likebtn-${p.id}" onclick="likePost(${p.id})" aria-label="讚">
+          <svg viewBox="0 0 24 24" fill="${liked?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.9-10-9.3C.4 8 2 4.5 5.6 4A5.8 5.8 0 0112 7a5.8 5.8 0 016.4-3c3.6.5 5.2 4 3.6 7.7C19.5 16.1 12 21 12 21z"/></svg>
         </button>
         <button class="icon-btn" onclick="focusComment(${p.id})" aria-label="留言">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 01-4 4H8l-5 3V6a4 4 0 014-4h10a4 4 0 014 4z"/></svg>
@@ -1141,18 +1175,21 @@ function renderFeed(){
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
         </button>
       </div>
-      <div class="post-likes" id="likecount-${p.id}">${likeCountText(p, false)}</div>
+      <div class="post-likes" id="likecount-${p.id}">${likeCountText(p, liked)}</div>
       <div class="post-caption">${captionHTML(p, a)}</div>
-      <div class="post-comments-preview" id="comments-${p.id}">
-        ${hasMore ? `<button class="viewall" onclick="toast('顯示全部 ${p.comments.length} 則留言（示範版略）')">查看全部 ${p.comments.length} 則留言</button>` : ''}
-        ${shown.map(c=>`<div class="comment-line"><span class="name">${c.u}</span>${c.t}</div>`).join('')}
-      </div>
+      <div class="post-comments-preview" id="comments-${p.id}">${commentsPreviewHTML(p)}</div>
       <div class="post-addcomment">
         <input type="text" placeholder="留言..." id="input-${p.id}" onkeydown="if(event.key==='Enter')submitComment(${p.id})" oninput="toggleSend(${p.id})">
         <button id="send-${p.id}" onclick="submitComment(${p.id})">發佈</button>
       </div>
     </article>`;
   }).join('');
+}
+
+function refreshPostMeta(id){
+  const post = POSTS.find(p=>p.id===id);
+  document.getElementById('likecount-'+id).textContent = likeCountText(post, !!likedState[id]);
+  document.getElementById('comments-'+id).innerHTML = commentsPreviewHTML(post);
 }
 
 function toggleSend(id){
@@ -1167,17 +1204,20 @@ function submitComment(id){
   if(!val) return;
   const post = POSTS.find(p=>p.id===id);
   post.comments.push({u:'you', t:val});
+  if(expandedComments[id]) expandedComments[id] = true;
   input.value='';
   document.getElementById('send-'+id).classList.remove('enabled');
-  renderFeed();
+  refreshPostMeta(id);
 }
 
 const likedState = {};
 function likePost(id, fromDblTap){
   const already = likedState[id];
-  if(fromDblTap && already) return;
-  if(!fromDblTap) likedState[id] = !already;
-  else likedState[id] = true;
+  if(!fromDblTap){
+    likedState[id] = !already;
+  }else if(!already){
+    likedState[id] = true;
+  }
 
   const post = POSTS.find(p=>p.id===id);
   document.getElementById('likecount-'+id).textContent = likeCountText(post, likedState[id]);
@@ -1201,9 +1241,21 @@ function focusComment(id){
 const IG_SCREENS = ['feed','profile','dmlist','dmthread'];
 const THREADS_SCREENS = ['threads','threads-search'];
 const FB_SCREENS = ['fb'];
+const SCREEN_DEPTH = {
+  home:0, feed:1, threads:1, fb:1,
+  profile:2, dmlist:2, 'threads-search':2, 'fb-post':2,
+  dmthread:3
+};
 function showScreen(name){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+name).classList.add('active');
+  const prev = currentScreenName();
+  const prevDepth = SCREEN_DEPTH[prev] ?? 0;
+  const nextDepth = SCREEN_DEPTH[name] ?? 0;
+  const dir = nextDepth >= prevDepth ? 'slide-in-right' : 'slide-in-left';
+
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active','slide-in-right','slide-in-left'));
+  const target = document.getElementById('screen-'+name);
+  target.classList.add('active');
+  if(name !== prev) target.classList.add(dir);
   document.getElementById('feedTopbar').style.display = (name==='feed') ? 'flex' : 'none';
   document.getElementById('navHome').classList.toggle('active', name==='feed');
   document.querySelector('.bottomnav').style.display = IG_SCREENS.includes(name) ? 'flex' : 'none';
@@ -1353,6 +1405,28 @@ function fbPhotoGridHTML(p){
   return `<div class="fb-photo-grid">${tiles}</div>`;
 }
 
+const fbLikedState = {};
+function fbLikeButtonHTML(p, inDetail){
+  const liked = !!fbLikedState[p.id];
+  const total = p.likes + (liked?1:0);
+  const stop = inDetail ? '' : 'event.stopPropagation(); ';
+  return `<button class="fb-action-btn ${liked?'fb-liked':''}" id="fblikebtn-${p.id}${inDetail?'-d':''}" onclick="${stop}fbLikePost('${p.id}', ${inDetail?'true':'false'})">👍 讚 ${formatCount(total)}</button>`;
+}
+function fbLikePost(id, inDetail){
+  fbLikedState[id] = !fbLikedState[id];
+  const p = FB_POSTS.find(x=>x.id===id);
+  const btn = document.getElementById('fblikebtn-'+id+(inDetail?'-d':''));
+  if(btn) btn.outerHTML = fbLikeButtonHTML(p, inDetail);
+  const otherBtn = document.getElementById('fblikebtn-'+id+(inDetail?'':'-d'));
+  if(otherBtn) otherBtn.outerHTML = fbLikeButtonHTML(p, !inDetail);
+}
+
+function fbCommentsHTML(p){
+  return p.comments.length
+    ? `<div class="fb-post-comments">${p.comments.map(c=>`<span class="fb-comment-line"><b>${c.u}</b>${c.t}</span>`).join('')}</div>`
+    : `<div class="fb-post-comments" style="color:#65676b; font-size:12.5px;">還沒有留言</div>`;
+}
+
 function renderFbFeed(){
   const wrap = document.getElementById('fbFeed');
   wrap.innerHTML = FB_POSTS.map(p=>{
@@ -1369,7 +1443,7 @@ function renderFbFeed(){
       <div class="fb-post-text">${fbCaptionHTML(p)}</div>
       ${fbPhotoGridHTML(p)}
       <div class="fb-post-actions">
-        <button class="fb-action-btn" onclick="event.stopPropagation(); toast('示範版尚未開放按讚功能')">👍 讚 ${formatCount(p.likes)}</button>
+        ${fbLikeButtonHTML(p, false)}
         <button class="fb-action-btn" onclick="event.stopPropagation(); openFbPost('${p.id}')">💬 留言</button>
         <button class="fb-action-btn" onclick="event.stopPropagation(); toast('分享功能未開放')">↗ 分享</button>
       </div>
@@ -1378,7 +1452,9 @@ function renderFbFeed(){
   }).join('');
 }
 
+let currentFbPostId = null;
 function openFbPost(id){
+  currentFbPostId = id;
   const p = FB_POSTS.find(x=>x.id===id);
   const a = FB_ACCOUNTS[p.acc];
   document.getElementById('fbPostDetailBody').innerHTML = `
@@ -1393,13 +1469,23 @@ function openFbPost(id){
       <div class="fb-post-text">${p.text}</div>
       ${fbPhotoGridHTML(p)}
       <div class="fb-post-actions">
-        <button class="fb-action-btn" onclick="toast('示範版尚未開放按讚功能')">👍 讚 ${formatCount(p.likes)}</button>
-        <button class="fb-action-btn" onclick="toast('示範版尚未開放留言功能')">💬 留言</button>
+        ${fbLikeButtonHTML(p, true)}
+        <button class="fb-action-btn" onclick="document.getElementById('fbCommentInput').focus()">💬 留言</button>
         <button class="fb-action-btn" onclick="toast('分享功能未開放')">↗ 分享</button>
       </div>
-      ${p.comments.length ? `<div class="fb-post-comments">${p.comments.map(c=>`<span class="fb-comment-line"><b>${c.u}</b>${c.t}</span>`).join('')}</div>` : `<div class="fb-post-comments" style="color:#65676b; font-size:12.5px;">還沒有留言</div>`}
+      <div id="fbPostComments">${fbCommentsHTML(p)}</div>
     </div>`;
   showScreen('fb-post');
+}
+
+function fbSubmitComment(){
+  const input = document.getElementById('fbCommentInput');
+  const val = input.value.trim();
+  if(!val || currentFbPostId === null) return;
+  const p = FB_POSTS.find(x=>x.id===currentFbPostId);
+  p.comments.push({u:'你', t:val});
+  input.value = '';
+  document.getElementById('fbPostComments').innerHTML = fbCommentsHTML(p);
 }
 
 function openThread(id){
