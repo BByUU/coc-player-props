@@ -658,8 +658,8 @@
     </div>
     <div class="fb-cover">🌊</div>
     <div class="fb-group-meta">
-      <div class="fb-group-name">銓山鎮地方社團</div>
-      <div class="fb-group-sub">公開社團・鎮民交流・含銓山鎮公所公告</div>
+      <div class="fb-group-name">我是銓山人</div>
+      <div class="fb-group-sub">公開社團・鎮民交流</div>
       <div class="fb-group-actions">
         <button class="fb-joined-btn">✓ 已加入</button>
         <button class="fb-invite-btn" onclick="toast('示範版尚未開放邀請功能')">＋ 邀請</button>
@@ -1027,12 +1027,11 @@ const THREADS_HOME_POSTS = [
 
 /* ============ Facebook：地方社團與鎮公所官方頁面，長輩與鎮民聚集的地方 ============ */
 const FB_ACCOUNTS = {
-  towngov: { name:'銓山鎮公所', sub:'官方粉絲專頁', letter:'鎮', grad:'linear-gradient(135deg,#4b6cb7,#182848)' },
-  group:   { name:'銓山鎮地方社團', sub:'公開社團・鎮民交流', letter:'社', grad:'linear-gradient(135deg,#56ab2f,#a8e063)' }
+  group: { name:'我是銓山人', sub:'公開社團・鎮民交流', letter:'社', grad:'linear-gradient(135deg,#56ab2f,#a8e063)' }
 };
 
 const FB_POSTS = [
-  { id:'f1', acc:'towngov', time:'5月13日 · 10:02', photos:3,
+  { id:'f1', acc:'group', time:'5月13日 · 10:02', photos:3,
     text:'《銓山媽祖文化季圓滿成功》\n感謝所有鎮民與戰鼓隊小朋友的參與🙏 明年再一起把文化季辦得更好！',
     likes:210, comments:[{u:'林媽媽', t:'鎮長辛苦了，孩子們也很棒'}] },
 
@@ -1056,12 +1055,12 @@ const FB_POSTS = [
     text:'海濱路媽祖繞境活動後滿地垃圾，已反映鎮公所，回應會加強宣導。\n辦活動是很好，但收尾也要負責任吧。',
     likes:64, comments:[{u:'王先生', t:'一場明明收三萬元，孩子怎麼說沒拿過錢？'}] },
 
-  { id:'f5', acc:'towngov', time:'5月16日 · 09:00',
-    text:'鎮長慰問失蹤學生家屬，呼籲鄉親勿散布未經證實之消息，共同維護鎮上治安與家屬隱私。',
+  { id:'f5', acc:'group', time:'5月16日 · 09:00',
+    text:'看到鎮長今天去慰問失蹤學生的家屬了，也呼籲大家不要亂傳沒證實的消息，多顧一下家屬的心情。',
     likes:302, comments:[] },
 
-  { id:'f6', acc:'towngov', time:'4月20日 · 14:20',
-    text:'《十年前掃毒、十年後重生：銓山地方創生紀錄》\n本鎮爭取文化觀光亮點城鎮補助，感謝中央與各界支持。',
+  { id:'f6', acc:'group', time:'4月20日 · 14:20',
+    text:'《十年前掃毒、十年後重生：銓山地方創生紀錄》\n看到這篇報導有點感動，銓山也爭取到文化觀光亮點城鎮補助了，總算苦盡甘來。',
     likes:177, comments:[{u:'李里長', t:'這十年真的不容易，繼續加油'}] }
 ];
 
