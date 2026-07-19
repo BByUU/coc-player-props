@@ -186,7 +186,7 @@
   .post-head .avatar{ width:34px; height:34px; font-size:13px; border:none; cursor:pointer; }
   .post-head .who{ flex:1; cursor:pointer; }
   .post-head .name{ font-size:13.5px; font-weight:600; }
-  .post-head .time{ font-size:11.5px; color:var(--ig-text-soft); }
+  .post-timestamp{ padding:5px 12px 0; font-size:11px; color:var(--ig-text-soft); }
   .post-media{
     width:100%; aspect-ratio:1/1;
     display:flex; align-items:center; justify-content:center;
@@ -1092,7 +1092,7 @@ function renderStories(){
     const a = ACCOUNTS[k];
     return `<button class="story-item" onclick="openStory('${k}')">
       <div class="story-ring ${a._storySeen?'seen':''}">${avatarHTML(k,54)}</div>
-      <div class="story-label">${a.name}</div>
+      <div class="story-label">${a.handle}</div>
     </button>`;
   }).join('');
 }
@@ -1152,7 +1152,6 @@ function renderFeed(){
         <div class="who" onclick="openProfile('${p.acc}')">
           <div class="name">${a.handle}</div>
         </div>
-        <div class="time">${p.time}</div>
       </div>
       <div class="post-media" style="background:${p.grad}" ondblclick="likePost(${p.id}, true)">
         <span class="icon">${p.icon}</span>
@@ -1176,6 +1175,7 @@ function renderFeed(){
       </div>
       <div class="post-likes" id="likecount-${p.id}">${likeCountText(p, liked)}</div>
       <div class="post-caption">${captionHTML(p, a)}</div>
+      <div class="post-timestamp">${p.time}</div>
       <div class="post-comments-preview" id="comments-${p.id}">${commentsPreviewHTML(p)}</div>
       <div class="post-addcomment">
         <input type="text" placeholder="留言..." id="input-${p.id}" onkeydown="if(event.key==='Enter')submitComment(${p.id})" oninput="toggleSend(${p.id})">
