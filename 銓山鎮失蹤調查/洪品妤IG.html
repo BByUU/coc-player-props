@@ -71,15 +71,6 @@
   .private-page{position:absolute;z-index:26;inset:0;background:#fff;overflow:auto}.private-profile{padding:23px 16px}.private-profile .profile-row{gap:20px}.private-profile .avatar{background:#eee;padding:0}.private-profile .avatar-inner{border:0;background:#ddd;color:#555}
   .private-lock{text-align:center;border-top:1px solid var(--line);padding:45px 25px}.lock-circle{width:62px;height:62px;border:2px solid #111;border-radius:50%;display:grid;place-items:center;margin:0 auto 14px;font-size:28px}.private-lock b{display:block;margin-bottom:7px}.private-lock p{color:var(--soft);font-size:13px;line-height:1.5;margin:0}
   .portrait{position:relative;overflow:hidden;background:linear-gradient(145deg,#d8d8d8,#686868)!important}.portrait:before{content:"";position:absolute;width:32px;height:42px;border-radius:48% 52% 42% 45%;background:#1d1d1d;top:4px;right:2px;transform:rotate(12deg)}.portrait:after{content:"✦";position:absolute;left:4px;bottom:4px;color:#222;font-size:15px}.shoulder{position:absolute;width:48px;height:31px;border-radius:60% 0 0 0;background:#c99878;right:-7px;bottom:-5px;transform:rotate(-12deg)}
-  .dm-page{position:absolute;z-index:32;inset:0;background:#fff;display:flex;flex-direction:column}
-  .dm-page .topbar{position:relative;flex:none}.dm-contact{display:flex;align-items:center;justify-content:center;gap:8px;flex:1}.dm-contact .person-avatar{width:30px;height:30px}.dm-contact-text{line-height:1.15;text-align:left}.dm-contact-text b{display:block;font-size:13px}.dm-contact-text span{font-size:10px;color:var(--soft)}
-  .archive-note{margin:10px 13px 4px;padding:9px 11px;border-radius:9px;background:#f2f2f2;color:#666;font-size:11px;line-height:1.45;text-align:center}
-  .dm-scroll{flex:1;overflow-y:auto;padding-bottom:25px;scrollbar-width:none}.dm-scroll::-webkit-scrollbar{display:none}
-  .memory-title{font-size:11px;color:var(--soft);text-align:center;margin:13px 0 7px}.memory-strip{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin:0 12px 12px}.memory-card{position:relative;aspect-ratio:4/5;border:0;padding:0;overflow:hidden;border-radius:8px;cursor:pointer;background:#ddd}.memory-card img{width:100%;height:100%;object-fit:cover}.memory-card span{position:absolute;left:7px;right:7px;bottom:6px;color:#fff;font-size:10px;font-weight:700;text-align:left;text-shadow:0 1px 4px #000}
-  .dm-day{text-align:center;color:var(--soft);font-size:11px;margin:14px 0 9px}.msg-row{display:flex;padding:2px 12px}.msg-row.out{justify-content:flex-end}.msg{max-width:76%;padding:9px 12px;border-radius:18px;background:#efefef;font-size:14px;line-height:1.4}.msg-row.out .msg{background:var(--blue);color:#fff}.msg-time{font-size:9px;color:#999;align-self:flex-end;margin:0 5px 3px}.msg-row.out .msg-time{order:-1}
-  .voice-bubble{width:245px;max-width:76%;border:0;border-radius:18px;background:#efefef;padding:9px 11px;display:flex;align-items:center;gap:9px;cursor:pointer;text-align:left}.voice-play{width:31px;height:31px;flex:none;border-radius:50%;display:grid;place-items:center;background:#222;color:#fff;font-size:13px;padding-left:2px}.voice-wave{height:26px;flex:1;display:flex;gap:2px;align-items:center}.voice-wave i{display:block;width:3px;border-radius:3px;background:#777;height:var(--h)}.voice-meta{font-size:10px;color:#777;white-space:nowrap}.voice-bubble.playing .voice-play{background:var(--blue)}.voice-bubble.playing .voice-wave i{animation:wave .6s ease-in-out infinite alternate}.voice-bubble.playing .voice-wave i:nth-child(2n){animation-delay:.15s}@keyframes wave{to{transform:scaleY(.55)}}
-  .call-event{width:max-content;max-width:88%;margin:5px auto;padding:6px 10px;border-radius:14px;background:#f5f5f5;color:#777;font-size:11px;text-align:center}.forensic-note{margin:7px 35px 10px;padding:8px 10px;border-left:3px solid #888;background:#f5f5f5;color:#555;font-size:11px;line-height:1.45}.callback-block{margin-top:5px}
-  .memory-viewer{position:absolute;z-index:60;inset:0;background:#000;display:grid;place-items:center}.memory-viewer img{width:100%;height:100%;object-fit:contain}.memory-close{position:absolute;z-index:2;top:12px;right:12px;width:38px;height:38px;border:0;border-radius:50%;background:#0009;color:#fff;font-size:25px;cursor:pointer}.memory-caption{position:absolute;left:14px;right:14px;bottom:18px;color:#fff;text-align:center;font-size:12px;text-shadow:0 1px 4px #000}
   .notice{font-size:12px;color:var(--soft);text-align:center;padding:12px 18px 18px}
   @media(max-width:500px){html,body{background:#fff}.phone{width:100%;max-height:none;box-shadow:none}}
 </style>
@@ -89,7 +80,7 @@
   <section class="view" id="profileView">
     <header class="topbar">
       <div class="topbar-side"></div><div class="topbar-title">pinyu.daily</div>
-      <div class="topbar-side"><button class="icon-btn" aria-label="訊息備份" onclick="openDM()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></div>
+      <div class="topbar-side"></div>
     </header>
     <div class="profile">
       <div class="profile-row">
@@ -103,7 +94,7 @@
       <div class="name">洪品妤</div>
       <div class="bio">國二｜校刊社影像組 📷
 戰鼓隊活動紀錄｜手機拍生活</div>
-      <div class="chips"><button class="chip" onclick="toast('這是公開頁面的瀏覽模式')">追蹤中</button><button class="chip" onclick="openDM()">查看訊息備份</button></div>
+      <div class="chips"><button class="chip" onclick="toast('這是公開頁面的瀏覽模式')">追蹤中</button></div>
     </div>
     <div class="highlights">
       <button class="highlight" onclick="filterTag('日常blog')"><div class="highlight-ring"><div class="highlight-cover" style="background:#dff1ff">🎒</div></div><span>日常blog</span></button>
@@ -129,42 +120,7 @@
 
   <section class="post hidden" id="postView" aria-label="貼文詳情"></section>
   <section class="private-page hidden" id="accountView"></section>
-  <section class="dm-page hidden" id="dmView" aria-label="王思潔與許承恩訊息備份">
-    <header class="topbar">
-      <div class="topbar-side"><button class="icon-btn" onclick="closeDM()" aria-label="返回"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button></div>
-      <div class="dm-contact"><div class="person-avatar hsu-photo"></div><div class="dm-contact-text"><b>王思潔・許承恩</b><span>手機訊息備份</span></div></div>
-      <div class="topbar-side"></div>
-    </header>
-    <div class="dm-scroll" id="dmScroll">
-      <div class="archive-note">5 月 13 日訊息紀錄<br>許承恩的手機於上班期間留在員工置物櫃</div>
-      <div class="memory-title">洪品妤拍攝的午後片段</div>
-      <div class="memory-strip">
-        <button class="memory-card" onclick="openMemory('assets/洪品妤IG/may13-drink-shop.webp','5月13日下午・海邊飲料店')"><img src="assets/洪品妤IG/may13-drink-shop.webp" alt="三人在海邊飲料店聊天"><span>海邊飲料店</span></button>
-        <button class="memory-card" onclick="openMemory('assets/洪品妤IG/may13-seawall.webp','5月13日下午・沿堤防散步')"><img src="assets/洪品妤IG/may13-seawall.webp" alt="王思潔與許承恩沿堤防散步"><span>沿堤防散步</span></button>
-      </div>
-      <div class="forensic-note">📎 洪品妤的訊息備份：傍晚收到王思潔傳來「我先回去，晚點再講」。</div>
-      <div class="dm-day">5 月 13 日・傍晚</div>
-      <div class="msg-row"><div class="msg">我回去了。</div><span class="msg-time">傍晚</span></div>
-      <div class="msg-row out"><div class="msg">到家講。</div></div>
-      <div class="msg-row"><div class="msg">我還是很想搬去阿嬤那裡住。</div></div>
-      <div class="msg-row out"><div class="msg">妳過來，我會跟阿嬤講。</div></div>
-      <div class="dm-day">21:49</div>
-      <div class="msg-row"><div class="msg">他打我。</div><span class="msg-time">21:49</span></div>
-      <div class="msg-row"><div class="msg">我不要回去了。</div><span class="msg-time">21:51</span></div>
-      <div class="msg-row"><div class="msg">你跟阿嬤說一聲，我現在過去。</div><span class="msg-time">21:53</span></div>
-      <div class="msg-row"><button class="voice-bubble" id="voiceButton1" onclick="toggleVoice(1)"><span class="voice-play">▶</span><span class="voice-wave"><i style="--h:35%"></i><i style="--h:70%"></i><i style="--h:45%"></i><i style="--h:90%"></i><i style="--h:60%"></i><i style="--h:30%"></i><i style="--h:78%"></i><i style="--h:50%"></i><i style="--h:95%"></i><i style="--h:55%"></i><i style="--h:38%"></i><i style="--h:72%"></i><i style="--h:44%"></i><i style="--h:82%"></i><i style="--h:48%"></i></span><span class="voice-meta" id="voiceMeta1">語音 1</span></button></div>
-      <div class="dm-day">22:17</div>
-      <div class="msg-row"><button class="voice-bubble" id="voiceButton2" onclick="toggleVoice(2)"><span class="voice-play">▶</span><span class="voice-wave"><i style="--h:50%"></i><i style="--h:92%"></i><i style="--h:68%"></i><i style="--h:35%"></i><i style="--h:80%"></i><i style="--h:52%"></i><i style="--h:98%"></i><i style="--h:65%"></i><i style="--h:40%"></i><i style="--h:86%"></i><i style="--h:57%"></i><i style="--h:94%"></i><i style="--h:46%"></i><i style="--h:74%"></i><i style="--h:58%"></i></span><span class="voice-meta" id="voiceMeta2">語音 2</span></button><span class="msg-time">22:17</span></div>
-      <div class="forensic-note">🔧 修車行辨識備註：第二段語音的背景車聲近似小貨車。</div>
-      <div class="call-event">☎ 王思潔撥打語音通話・未接聽　22:18</div>
-      <div class="call-event">☎ 王思潔撥打語音通話・未接聽　22:20</div>
-      <div class="call-event">☎ 王思潔撥打語音通話・未接聽　22:22</div>
-      <div class="dm-day">22:45・許承恩查看手機後</div>
-      <div class="callback-block"><div class="call-event">☎ 許承恩連續回撥・電話無法接通　22:45 起</div></div>
-    </div>
-  </section>
   <section class="sheet hidden" id="likesSheet" onclick="if(event.target===this)closeLikes()"><div class="sheet-panel"><div class="grab"></div><div class="sheet-title">按讚的人</div><div id="likesList"></div></div></section>
-  <section class="memory-viewer hidden" id="memoryViewer"><button class="memory-close" onclick="closeMemory()" aria-label="關閉">×</button><img id="memoryImage" alt=""><div class="memory-caption" id="memoryCaption"></div></section>
   <div id="toast" style="position:absolute;z-index:50;left:50%;bottom:70px;transform:translate(-50%,15px);background:#111e;color:#fff;padding:9px 15px;border-radius:20px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;white-space:nowrap"></div>
 </main>
 <script>
@@ -193,7 +149,7 @@ function reelIcon(){return '<svg width="19" height="19" viewBox="0 0 24 24" fill
 function renderGrid(list=posts){document.getElementById('grid').innerHTML=list.length?list.map(p=>`<button class="tile" onclick="openPost(${p.id})" aria-label="${p.tag} 貼文"><span class="tile-scene"><img src="${p.image}" alt="" loading="lazy"></span><span class="reel">${reelIcon()}</span><span class="tag">#${p.tag}</span></button>`).join(''):'<div class="empty">沒有符合的貼文</div>'}
 function showTab(tab){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById(tab+'Tab').classList.add('active');activeTag=null;if(tab==='tagged')renderGrid([]);else renderGrid(posts)}
 function filterTag(tag){activeTag=tag;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById('reelsTab').classList.add('active');renderGrid(posts.filter(p=>p.tag===tag));document.getElementById('grid').scrollIntoView({behavior:'smooth',block:'start'})}
-function showAll(){closePost();closeAccount();closeDM();showTab('posts');document.getElementById('profileView').scrollTo({top:0,behavior:'smooth'})}
+function showAll(){closePost();closeAccount();showTab('posts');document.getElementById('profileView').scrollTo({top:0,behavior:'smooth'})}
 function openPost(id){const p=posts.find(x=>x.id===id),isLiked=!!liked[id];document.getElementById('postView').innerHTML=`<header class="topbar"><div class="topbar-side"><button class="icon-btn" onclick="closePost()" aria-label="返回">${ICONS.back}</button></div><div class="topbar-title">貼文</div><div class="topbar-side"></div></header><div class="post-head"><div class="person-avatar">洪</div><div class="person-main"><div class="person-handle">pinyu.daily</div><div class="person-name">#${p.tag}</div></div><b>•••</b></div><div class="post-media" onclick="this.classList.toggle('playing')"><img class="post-image" src="${p.image}" alt="${p.tag} 影片封面"><span class="video-label">${p.duration}</span><span class="play">▶</span></div><div class="post-actions"><button class="icon-btn ${isLiked?'liked':''}" id="postLike" onclick="toggleLike(${id})">${ICONS.heart}</button><button class="icon-btn" onclick="toast('留言輸入未開放')">${ICONS.comment}</button><button class="icon-btn" onclick="toast('分享功能未開放')">${ICONS.send}</button><span class="spacer"></span><button class="icon-btn" onclick="toast('已收藏')">▱</button></div><button class="likes" onclick="openLikes(${id})" id="likeText">${p.likes+(isLiked?1:0)} 個讚</button><div class="caption"><b>pinyu.daily</b>${p.caption}</div><button class="all-comments" onclick="openLikes(${id},true)">查看全部 ${p.comments.length} 則留言</button><div>${p.comments.map(c=>`<div class="comment"><b>${c[0]}</b>${c[1]}</div>`).join('')}</div><div class="time">${p.time}</div>`;document.getElementById('postView').classList.remove('hidden')}
 function closePost(){document.getElementById('postView').classList.add('hidden')}
 function toggleLike(id){liked[id]=!liked[id];const p=posts.find(x=>x.id===id);document.getElementById('postLike').classList.toggle('liked',liked[id]);document.getElementById('likeText').textContent=(p.likes+(liked[id]?1:0))+' 個讚'}
@@ -202,27 +158,6 @@ function openLikes(id,commentsOnly=false){const p=posts.find(x=>x.id===id);if(co
 function closeLikes(){document.getElementById('likesSheet').classList.add('hidden')}
 function openAccount(kind){closeLikes();const isWang=kind==='wang';const handle=isWang?'wang.sj':'hsu_ceee',name=isWang?'王思潔':'許',postsCount=0,followers=isWang?'0':'2',following=isWang?'2':'34';document.getElementById('accountView').innerHTML=`<header class="topbar"><div class="topbar-side"><button class="icon-btn" onclick="closeAccount()" aria-label="返回">${ICONS.back}</button></div><div class="topbar-title">${handle} 🔒</div><div class="topbar-side"></div></header><div class="private-profile"><div class="profile-row">${isWang?'<div class="avatar"><div class="avatar-inner" style="background:#ddd;color:#777">人</div></div>':'<div class="avatar" style="background:#eee;padding:3px"><div class="avatar-inner hsu-photo"></div></div>'}<div class="stats"><div class="stat"><b>${postsCount}</b><span>貼文</span></div><div class="stat"><b>${followers}</b><span>粉絲</span></div><div class="stat"><b>${following}</b><span>追蹤中</span></div></div></div><div class="name">${name}</div>${!isWang?'<div class="bio">私人帳號</div>':''}<div class="chips"><button class="chip" onclick="toast('已送出追蹤要求')">追蹤</button></div></div><div class="private-lock"><div class="lock-circle">🔒</div><b>此帳號為私人帳號</b><p>追蹤後即可查看對方分享的相片和影片。</p></div>`;document.getElementById('accountView').classList.remove('hidden')}
 function closeAccount(){document.getElementById('accountView').classList.add('hidden')}
-const AUDIO_FILES={1:'assets/洪品妤IG/audio/wang-voice-01.mp3',2:'assets/洪品妤IG/audio/wang-voice-02.mp3'};
-const audioPlayers={};
-function audioTime(seconds){if(!Number.isFinite(seconds))return '--:--';const m=Math.floor(seconds/60),s=Math.floor(seconds%60);return `${m}:${String(s).padStart(2,'0')}`}
-function openDM(){closePost();closeAccount();closeLikes();document.getElementById('dmView').classList.remove('hidden');setTimeout(()=>{document.getElementById('dmScroll').scrollTop=0},20)}
-function closeDM(){document.getElementById('dmView').classList.add('hidden');Object.values(audioPlayers).forEach(a=>a.pause());document.querySelectorAll('.voice-bubble').forEach(b=>{b.classList.remove('playing');b.querySelector('.voice-play').textContent='▶'})}
-async function toggleVoice(id){
-  const button=document.getElementById('voiceButton'+id),meta=document.getElementById('voiceMeta'+id);
-  if(!audioPlayers[id]){
-    const audio=new Audio(AUDIO_FILES[id]);audio.preload='metadata';audioPlayers[id]=audio;
-    audio.addEventListener('loadedmetadata',()=>meta.textContent=audioTime(audio.duration));
-    audio.addEventListener('timeupdate',()=>meta.textContent=`${audioTime(audio.currentTime)} / ${audioTime(audio.duration)}`);
-    audio.addEventListener('ended',()=>{button.classList.remove('playing');button.querySelector('.voice-play').textContent='▶';meta.textContent=audioTime(audio.duration)});
-    audio.addEventListener('error',()=>{button.classList.remove('playing');button.querySelector('.voice-play').textContent='▶';meta.textContent=`語音 ${id}`;toast('音檔尚未匯入')});
-  }
-  const audio=audioPlayers[id];
-  if(!audio.paused){audio.pause();button.classList.remove('playing');button.querySelector('.voice-play').textContent='▶';return}
-  Object.entries(audioPlayers).forEach(([key,other])=>{if(Number(key)!==id){other.pause();const otherButton=document.getElementById('voiceButton'+key);if(otherButton){otherButton.classList.remove('playing');otherButton.querySelector('.voice-play').textContent='▶'}}});
-  try{await audio.play();button.classList.add('playing');button.querySelector('.voice-play').textContent='Ⅱ'}catch(e){button.classList.remove('playing');button.querySelector('.voice-play').textContent='▶';toast('音檔尚未匯入')}
-}
-function openMemory(src,caption){document.getElementById('memoryImage').src=src;document.getElementById('memoryCaption').textContent=caption;document.getElementById('memoryViewer').classList.remove('hidden')}
-function closeMemory(){document.getElementById('memoryViewer').classList.add('hidden');document.getElementById('memoryImage').removeAttribute('src')}
 let toastTimer;function toast(text){const el=document.getElementById('toast');el.textContent=text;el.style.opacity=1;el.style.transform='translate(-50%,0)';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{el.style.opacity=0;el.style.transform='translate(-50%,15px)'},1600)}
 renderGrid();
 </script>
