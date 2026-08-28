@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Instagram・洪品妤</title>
+<style>
+  :root{--bg:#fff;--text:#0f0f0f;--soft:#737373;--line:#dbdbdb;--blue:#0095f6;--red:#ff3040;--panel:#fff}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;min-height:100%;background:#ececec;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif}
+  button{font:inherit;color:inherit}
+  .phone{position:relative;width:430px;max-width:100%;height:100dvh;max-height:900px;margin:auto;background:var(--bg);overflow:hidden;box-shadow:0 20px 70px #0003}
+  .view{position:absolute;inset:0 0 52px;background:var(--bg);overflow-y:auto;scrollbar-width:none}
+  .view::-webkit-scrollbar{display:none}
+  .hidden{display:none!important}
+  .topbar{position:sticky;top:0;z-index:8;height:50px;display:flex;align-items:center;gap:12px;padding:0 14px;background:#fffc;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+  .topbar-title{font-weight:700;flex:1;text-align:center;font-size:16px}
+  .topbar-side{width:34px;display:flex;align-items:center}
+  .icon-btn{border:0;background:none;padding:6px;display:grid;place-items:center;cursor:pointer}
+  .icon-btn svg{width:24px;height:24px}
+  .profile{padding:18px 16px 12px}
+  .profile-row{display:flex;align-items:center;gap:24px}
+  .avatar{width:86px;height:86px;flex:none;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#f9ce34,#ee2a7b 52%,#6228d7);padding:3px}
+  .avatar-inner{width:100%;height:100%;border:3px solid #fff;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#9be7d0,#5c9ecf);color:#fff;font-size:29px;font-weight:800}
+  .stats{display:flex;flex:1;justify-content:space-between;gap:10px}
+  .stat{border:0;background:none;padding:4px 2px;text-align:center;cursor:pointer}
+  .stat b{display:block;font-size:16px}.stat span{font-size:13px}
+  .name{font-weight:700;font-size:14px;margin-top:13px}.bio{font-size:14px;line-height:1.45;margin-top:3px;white-space:pre-line}
+  .chips{display:flex;gap:7px;margin-top:12px}
+  .chip{flex:1;border:0;border-radius:8px;background:#efefef;padding:7px 8px;font-size:13px;font-weight:700;cursor:pointer}
+  .highlights{display:flex;gap:17px;overflow:auto;padding:8px 16px 14px;scrollbar-width:none}
+  .highlight{width:66px;flex:none;text-align:center;border:0;background:none;padding:0;cursor:pointer}
+  .highlight-ring{width:62px;height:62px;border:1px solid #c7c7c7;border-radius:50%;padding:3px;margin:auto;background:#fff}
+  .highlight-cover{height:100%;border-radius:50%;display:grid;place-items:center;font-size:25px}.highlight span{display:block;font-size:11px;margin-top:5px;white-space:nowrap}
+  .tabs{position:sticky;top:50px;z-index:7;height:45px;display:flex;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid #eee}
+  .tab{flex:1;border:0;background:none;color:#999;display:grid;place-items:center;cursor:pointer;border-bottom:1px solid transparent}
+  .tab.active{color:#111;border-bottom-color:#111}.tab svg{width:22px;height:22px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding-bottom:20px}
+  .tile{position:relative;aspect-ratio:1;border:0;padding:0;overflow:hidden;cursor:pointer;background:#ddd}
+  .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,#0004)}
+  .tile-scene{position:absolute;inset:0;display:grid;place-items:center;font-size:36px;background:var(--scene)}
+  .tile-scene img{width:100%;height:100%;object-fit:cover;display:block}
+  .tile .reel{position:absolute;z-index:2;top:7px;right:7px;color:#fff;filter:drop-shadow(0 1px 2px #0008)}
+  .tile .tag{position:absolute;z-index:2;left:7px;bottom:6px;color:#fff;font-size:10px;font-weight:700;text-shadow:0 1px 3px #000}
+  .empty{grid-column:1/-1;text-align:center;color:var(--soft);padding:70px 20px;font-size:14px}
+  .bottomnav{position:absolute;z-index:10;left:0;right:0;bottom:0;height:52px;padding-bottom:env(safe-area-inset-bottom);display:flex;align-items:center;justify-content:space-around;background:#fff;border-top:1px solid var(--line)}
+  .bottomnav .icon-btn{width:20%}.mini-avatar{width:25px;height:25px;border-radius:50%;background:linear-gradient(145deg,#9be7d0,#5c9ecf);display:grid;place-items:center;color:#fff;font-size:10px;font-weight:800;border:1px solid #111}
+  .sheet{position:absolute;z-index:30;inset:0;background:#0008;display:flex;align-items:flex-end}
+  .sheet-panel{width:100%;max-height:76%;overflow:auto;background:#fff;border-radius:16px 16px 0 0;animation:up .18s ease}
+  @keyframes up{from{transform:translateY(20px);opacity:.5}}
+  .grab{width:38px;height:4px;border-radius:3px;background:#bbb;margin:8px auto 3px}
+  .sheet-title{font-weight:700;text-align:center;padding:10px;border-bottom:1px solid var(--line)}
+  .person{display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer}
+  .person:hover{background:#fafafa}.person-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none;background:linear-gradient(145deg,#aaa,#555);color:#fff;font-weight:700}
+  .hsu-photo{background:url('assets/洪品妤IG/hsu-avatar.webp') center/cover no-repeat!important}
+  .person-main{flex:1;min-width:0}.person-handle{font-size:14px;font-weight:700}.person-name{font-size:13px;color:var(--soft)}
+  .follow{border:0;border-radius:8px;background:#efefef;padding:7px 14px;font-size:13px;font-weight:700}
+  .post{position:absolute;z-index:25;inset:0;background:#fff;overflow-y:auto;scrollbar-width:none}
+  .post-head{height:54px;display:flex;align-items:center;gap:9px;padding:7px 12px}.post-head .person-avatar{width:34px;height:34px;font-size:12px;background:linear-gradient(145deg,#9be7d0,#5c9ecf)}
+  .post-media{position:relative;aspect-ratio:4/5;display:grid;place-items:center;background:var(--scene);overflow:hidden}
+  .post-emoji{font-size:90px;filter:drop-shadow(0 8px 13px #0003)}
+  .post-image{width:100%;height:100%;object-fit:cover;display:block}
+  .video-label{position:absolute;top:12px;right:12px;border-radius:15px;background:#0008;color:#fff;padding:5px 9px;font-size:12px;font-weight:700}
+  .play{position:absolute;width:66px;height:66px;border-radius:50%;background:#0007;display:grid;place-items:center;color:#fff;font-size:29px;padding-left:5px;transition:.15s}
+  .post-media.playing .play{opacity:0}.post-media.playing .post-image{animation:handheld 2.4s ease-in-out infinite}
+  @keyframes handheld{0%,100%{transform:scale(1.02) rotate(-.7deg)}50%{transform:scale(1.08) rotate(.7deg)}}
+  .post-actions{display:flex;align-items:center;gap:10px;padding:9px 12px 3px}.post-actions .spacer{flex:1}.liked{color:var(--red)}
+  .likes{border:0;background:none;font-size:14px;font-weight:700;padding:4px 13px;cursor:pointer}.caption{font-size:14px;line-height:1.5;padding:2px 13px}.caption b{margin-right:5px}.time{font-size:11px;color:var(--soft);padding:7px 13px 18px}
+  .comment{font-size:14px;line-height:1.45;padding:2px 13px}.comment b{margin-right:6px}.all-comments{border:0;background:none;color:var(--soft);padding:5px 13px;cursor:pointer}
+  .private-page{position:absolute;z-index:26;inset:0;background:#fff;overflow:auto}.private-profile{padding:23px 16px}.private-profile .profile-row{gap:20px}.private-profile .avatar{background:#eee;padding:0}.private-profile .avatar-inner{border:0;background:#ddd;color:#555}
+  .private-lock{text-align:center;border-top:1px solid var(--line);padding:45px 25px}.lock-circle{width:62px;height:62px;border:2px solid #111;border-radius:50%;display:grid;place-items:center;margin:0 auto 14px;font-size:28px}.private-lock b{display:block;margin-bottom:7px}.private-lock p{color:var(--soft);font-size:13px;line-height:1.5;margin:0}
+  .portrait{position:relative;overflow:hidden;background:linear-gradient(145deg,#d8d8d8,#686868)!important}.portrait:before{content:"";position:absolute;width:32px;height:42px;border-radius:48% 52% 42% 45%;background:#1d1d1d;top:4px;right:2px;transform:rotate(12deg)}.portrait:after{content:"✦";position:absolute;left:4px;bottom:4px;color:#222;font-size:15px}.shoulder{position:absolute;width:48px;height:31px;border-radius:60% 0 0 0;background:#c99878;right:-7px;bottom:-5px;transform:rotate(-12deg)}
+  .notice{font-size:12px;color:var(--soft);text-align:center;padding:12px 18px 18px}
+  @media(max-width:500px){html,body{background:#fff}.phone{width:100%;max-height:none;box-shadow:none}}
+</style>
+</head>
+<body>
+<main class="phone" aria-label="Instagram 模擬介面">
+  <section class="view" id="profileView">
+    <header class="topbar">
+      <div class="topbar-side"></div><div class="topbar-title">pinyu.daily</div>
+      <div class="topbar-side"><button class="icon-btn" aria-label="更多" onclick="toast('沒有更多公開資料')">•••</button></div>
+    </header>
+    <div class="profile">
+      <div class="profile-row">
+        <div class="avatar"><div class="avatar-inner">洪</div></div>
+        <div class="stats">
+          <button class="stat"><b>27</b><span>貼文</span></button>
+          <button class="stat" onclick="toast('粉絲名單未完整載入')"><b>618</b><span>粉絲</span></button>
+          <button class="stat" onclick="toast('追蹤名單未完整載入')"><b>403</b><span>追蹤中</span></button>
+        </div>
+      </div>
+      <div class="name">洪品妤</div>
+      <div class="bio">國二｜校刊社影像組 📷
+戰鼓隊活動紀錄｜手機拍生活</div>
+      <div class="chips"><button class="chip" onclick="toast('這是公開頁面的瀏覽模式')">追蹤中</button><button class="chip" onclick="toast('訊息功能未開放')">發送訊息</button></div>
+    </div>
+    <div class="highlights">
+      <button class="highlight" onclick="filterTag('日常blog')"><div class="highlight-ring"><div class="highlight-cover" style="background:#dff1ff">🎒</div></div><span>日常blog</span></button>
+      <button class="highlight" onclick="filterTag('戰鼓隊花絮')"><div class="highlight-ring"><div class="highlight-cover" style="background:#ffe7bd">🥁</div></div><span>戰鼓隊花絮</span></button>
+      <button class="highlight" onclick="filterTag('不要臉的兩人')"><div class="highlight-ring"><div class="highlight-cover" style="background:#f8dce5">🫶</div></div><span>不要臉的兩人</span></button>
+    </div>
+    <nav class="tabs">
+      <button class="tab active" id="postsTab" onclick="showTab('posts')" aria-label="貼文"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18"/><path d="M3 10h18M10 3v18"/></svg></button>
+      <button class="tab" id="reelsTab" onclick="showTab('reels')" aria-label="短片"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M8 3l3 6M14 3l3 6M10 13l5 3-5 3z"/></svg></button>
+      <button class="tab" id="taggedTab" onclick="showTab('tagged')" aria-label="被標註"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 3l4 4-11 11H6v-4zM3 21h18"/></svg></button>
+    </nav>
+    <div class="grid" id="grid"></div>
+    <div class="notice">此頁為遊戲使用的虛構社群介面。</div>
+  </section>
+
+  <nav class="bottomnav" aria-label="主要導覽">
+    <button class="icon-btn" onclick="showAll()" aria-label="首頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9h-6v-6H9v6H3z"/></svg></button>
+    <button class="icon-btn" onclick="toast('搜尋功能未開放')" aria-label="搜尋"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.5" cy="10.5" r="7.5"/><path d="M16 16l5 5"/></svg></button>
+    <button class="icon-btn" onclick="toast('建立貼文功能未開放')" aria-label="新增"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 8v8M8 12h8"/></svg></button>
+    <button class="icon-btn" onclick="toast('沒有新通知')" aria-label="通知"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-5-9.5-10C1.2 6.5 5.8 3 9.2 5.7L12 8l2.8-2.3C18.2 3 22.8 6.5 21.5 11 20 16 12 21 12 21z"/></svg></button>
+    <button class="icon-btn" onclick="showAll()" aria-label="個人檔案"><span class="mini-avatar">洪</span></button>
+  </nav>
+
+  <section class="post hidden" id="postView" aria-label="貼文詳情"></section>
+  <section class="private-page hidden" id="accountView"></section>
+  <section class="sheet hidden" id="likesSheet" onclick="if(event.target===this)closeLikes()"><div class="sheet-panel"><div class="grab"></div><div class="sheet-title">按讚的人</div><div id="likesList"></div></div></section>
+  <div id="toast" style="position:absolute;z-index:50;left:50%;bottom:70px;transform:translate(-50%,15px);background:#111e;color:#fff;padding:9px 15px;border-radius:20px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;white-space:nowrap"></div>
+</main>
+<script>
+const ICONS={back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>',heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-5-9.5-10C1.2 6.5 5.8 3 9.2 5.7L12 8l2.8-2.3C18.2 3 22.8 6.5 21.5 11 20 16 12 21 12 21z"/></svg>',comment:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 14a5 5 0 01-5 5H8l-5 3V7a4 4 0 014-4h9a5 5 0 015 5z"/></svg>',send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>'};
+const posts=[
+ {id:1,tag:'日常blog',image:'assets/洪品妤IG/post-01.webp',time:'4月18日',duration:'0:24',caption:'早八到底是誰發明的……今天差點坐過站 #日常blog',likes:84,comments:[['rui_0702','妳每天都在壓線哈哈'],['mimi.study','我今天也差點遲到']]},
+ {id:2,tag:'戰鼓隊花絮',image:'assets/洪品妤IG/post-02.webp',time:'4月21日',duration:'0:41',caption:'集合前五分鐘，每個人都說自己快到了。 #戰鼓隊花絮',likes:126,comments:[['cc_lin23','攝影師不要出賣我們啦'],['drum_yuan','我真的已經在路上了']]},
+ {id:3,tag:'不要臉的兩人',image:'assets/洪品妤IG/post-03.webp',time:'4月23日',duration:'0:16',caption:'散步還要牽這麼緊 🙄 #不要臉的兩人',likes:173,comments:[['auntie_lulu','唉唷青春'],['peach_122','姨母笑'],['dodo_77','好甜 · (￣▽￣)-o♡♡o-(￣▽￣)']]},
+ {id:4,tag:'日常blog',image:'assets/洪品妤IG/post-04.webp',time:'4月27日',duration:'0:37',caption:'考前讀書紀錄。前十分鐘很認真，後面都在聊天。 #日常blog',likes:67,comments:[['study.wei','妳還敢說'],['rui_0702','下次不要拍到我的講義']]},
+ {id:5,tag:'戰鼓隊花絮',image:'assets/洪品妤IG/post-05.webp',time:'5月1日',duration:'0:29',caption:'演出前的便當時間，比集合還準時。 #戰鼓隊花絮',likes:149,comments:[['drum_yuan','雞腿是我的'],['cc_lin23','下一支剪訪談！']]},
+ {id:6,tag:'不要臉的兩人',image:'assets/洪品妤IG/post-06.webp',time:'5月3日',duration:'0:21',caption:'頭靠著肩，手機到底有什麼這麼好看？ #不要臉的兩人',likes:201,comments:[['auntie_lulu','又來了又來了'],['peach_122','我嘴角下不來'],['momo.513','好甜喔救命']]},
+ {id:7,tag:'戰鼓隊花絮',image:'assets/洪品妤IG/post-07.webp',time:'5月5日',duration:'0:55',caption:'今日快問快答：上台前最怕什麼？ #戰鼓隊花絮',likes:158,comments:[['cc_lin23','最怕妳突然訪問我'],['drum_yuan','重錄啦我講太小聲']]},
+ {id:8,tag:'日常blog',image:'assets/洪品妤IG/post-08.webp',time:'5月7日',duration:'0:48',caption:'看完電影忍不住講了五分鐘。無雷感想放這裡。 #日常blog',likes:73,comments:[['film_ayi','妳講得比預告還吸引人']]},
+ {id:9,tag:'不要臉的兩人',image:'assets/洪品妤IG/post-09.webp',time:'5月9日',duration:'0:19',caption:'今天是放學後的背影。照例不給看臉。 #不要臉的兩人',likes:224,comments:[['dodo_77','保護當事人但傷害單身狗'],['auntie_lulu','青春真好'],['peach_122','姨母笑 +1']]},
+ {id:10,tag:'戰鼓隊花絮',image:'assets/洪品妤IG/post-10.webp',time:'5月11日',duration:'0:33',caption:'後台：喝水、聊天、找不到鼓棒。 #戰鼓隊花絮',likes:137,comments:[['drum_yuan','最後在椅子下面找到的…']]},
+ {id:11,tag:'日常blog',image:'assets/洪品妤IG/post-11.webp',time:'5月12日',duration:'0:31',caption:'作業好多。先抱怨再寫，儀式不能少。 #日常blog',likes:92,comments:[['mimi.study','抱怨完還是要寫哈哈']]},
+ {id:12,tag:'不要臉的兩人',image:'assets/洪品妤IG/post-12.webp',time:'5月13日',duration:'0:14',caption:'路燈下等人。今天只有十四秒。 #不要臉的兩人',likes:238,comments:[['momo.513','十四秒也很甜'],['dodo_77','更新太短了啦'],['auntie_lulu','唉唷青春']]}
+];
+const fixedLikes=[
+ {handle:'wang.sj',name:'王思潔',kind:'wang'},
+ {handle:'hsu_ceee',name:'許',kind:'hsu'}
+];
+const randomLikes=[['rui_0702','芮芮'],['mimi.study','米米'],['auntie_lulu','路過的姨姨'],['peach_122','桃子'],['dodo_77','Dodo']];
+let activeTag=null, liked={};
+function reelIcon(){return '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M8 3l3 6M14 3l3 6M10 13l5 3-5 3z"/></svg>'}
+function renderGrid(list=posts){document.getElementById('grid').innerHTML=list.length?list.map(p=>`<button class="tile" onclick="openPost(${p.id})" aria-label="${p.tag} 貼文"><span class="tile-scene"><img src="${p.image}" alt="" loading="lazy"></span><span class="reel">${reelIcon()}</span><span class="tag">#${p.tag}</span></button>`).join(''):'<div class="empty">沒有符合的貼文</div>'}
+function showTab(tab){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById(tab+'Tab').classList.add('active');activeTag=null;if(tab==='tagged')renderGrid([]);else renderGrid(posts)}
+function filterTag(tag){activeTag=tag;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById('reelsTab').classList.add('active');renderGrid(posts.filter(p=>p.tag===tag));document.getElementById('grid').scrollIntoView({behavior:'smooth',block:'start'})}
+function showAll(){closePost();closeAccount();showTab('posts');document.getElementById('profileView').scrollTo({top:0,behavior:'smooth'})}
+function openPost(id){const p=posts.find(x=>x.id===id),isLiked=!!liked[id];document.getElementById('postView').innerHTML=`<header class="topbar"><div class="topbar-side"><button class="icon-btn" onclick="closePost()" aria-label="返回">${ICONS.back}</button></div><div class="topbar-title">貼文</div><div class="topbar-side"></div></header><div class="post-head"><div class="person-avatar">洪</div><div class="person-main"><div class="person-handle">pinyu.daily</div><div class="person-name">#${p.tag}</div></div><b>•••</b></div><div class="post-media" onclick="this.classList.toggle('playing')"><img class="post-image" src="${p.image}" alt="${p.tag} 影片封面"><span class="video-label">${p.duration}</span><span class="play">▶</span></div><div class="post-actions"><button class="icon-btn ${isLiked?'liked':''}" id="postLike" onclick="toggleLike(${id})">${ICONS.heart}</button><button class="icon-btn" onclick="toast('留言輸入未開放')">${ICONS.comment}</button><button class="icon-btn" onclick="toast('分享功能未開放')">${ICONS.send}</button><span class="spacer"></span><button class="icon-btn" onclick="toast('已收藏')">▱</button></div><button class="likes" onclick="openLikes(${id})" id="likeText">${p.likes+(isLiked?1:0)} 個讚</button><div class="caption"><b>pinyu.daily</b>${p.caption}</div><button class="all-comments" onclick="openLikes(${id},true)">查看全部 ${p.comments.length} 則留言</button><div>${p.comments.map(c=>`<div class="comment"><b>${c[0]}</b>${c[1]}</div>`).join('')}</div><div class="time">${p.time}</div>`;document.getElementById('postView').classList.remove('hidden')}
+function closePost(){document.getElementById('postView').classList.add('hidden')}
+function toggleLike(id){liked[id]=!liked[id];const p=posts.find(x=>x.id===id);document.getElementById('postLike').classList.toggle('liked',liked[id]);document.getElementById('likeText').textContent=(p.likes+(liked[id]?1:0))+' 個讚'}
+function avatarMarkup(person){if(person.kind==='hsu')return '<div class="person-avatar hsu-photo"></div>';return `<div class="person-avatar">${person.name.slice(0,1)}</div>`}
+function openLikes(id,commentsOnly=false){const p=posts.find(x=>x.id===id);if(commentsOnly){toast('留言已顯示在貼文下方');return}const people=[...fixedLikes,...randomLikes.slice(0,2+(id%3)).map(x=>({handle:x[0],name:x[1]}))];document.getElementById('likesList').innerHTML=people.map(x=>`<div class="person" onclick="${x.kind?`openAccount('${x.kind}')`:`toast('此帳號未收錄')`}">${avatarMarkup(x)}<div class="person-main"><div class="person-handle">${x.handle}</div><div class="person-name">${x.name}</div></div><button class="follow">追蹤中</button></div>`).join('');document.getElementById('likesSheet').classList.remove('hidden')}
+function closeLikes(){document.getElementById('likesSheet').classList.add('hidden')}
+function openAccount(kind){closeLikes();const isWang=kind==='wang';const handle=isWang?'wang.sj':'hsu_ceee',name=isWang?'王思潔':'許',postsCount=0,followers=isWang?'0':'2',following=isWang?'2':'34';document.getElementById('accountView').innerHTML=`<header class="topbar"><div class="topbar-side"><button class="icon-btn" onclick="closeAccount()" aria-label="返回">${ICONS.back}</button></div><div class="topbar-title">${handle} 🔒</div><div class="topbar-side"></div></header><div class="private-profile"><div class="profile-row">${isWang?'<div class="avatar"><div class="avatar-inner" style="background:#ddd;color:#777">人</div></div>':'<div class="avatar" style="background:#eee;padding:3px"><div class="avatar-inner hsu-photo"></div></div>'}<div class="stats"><div class="stat"><b>${postsCount}</b><span>貼文</span></div><div class="stat"><b>${followers}</b><span>粉絲</span></div><div class="stat"><b>${following}</b><span>追蹤中</span></div></div></div><div class="name">${name}</div>${!isWang?'<div class="bio">私人帳號</div>':''}<div class="chips"><button class="chip" onclick="toast('已送出追蹤要求')">追蹤</button></div></div><div class="private-lock"><div class="lock-circle">🔒</div><b>此帳號為私人帳號</b><p>追蹤後即可查看對方分享的相片和影片。</p></div>`;document.getElementById('accountView').classList.remove('hidden')}
+function closeAccount(){document.getElementById('accountView').classList.add('hidden')}
+let toastTimer;function toast(text){const el=document.getElementById('toast');el.textContent=text;el.style.opacity=1;el.style.transform='translate(-50%,0)';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{el.style.opacity=0;el.style.transform='translate(-50%,15px)'},1600)}
+renderGrid();
+</script>
+</body>
+</html>
